@@ -308,11 +308,144 @@
     text-transform: uppercase;
   }
 
+  /* ── Framed gallery ── */
+  .gallery-section {
+    background: #0d0200;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 3rem;
+  }
+
+  .frame {
+    background: #1e0800;
+    border: 6px solid #2e1000;
+    box-shadow: 0 0 0 1px #ff5a0022, inset 0 0 0 1px #ff5a0015;
+    padding: 10px;
+    position: relative;
+  }
+
+  .frame::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid #ff5a0030;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .frame img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    filter: saturate(1.08) contrast(1.04);
+  }
+
+  .frame-tall img { aspect-ratio: 3/4; }
+
+  .frame-caption {
+    padding: 0.75rem 0.5rem 0.25rem;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff7a40;
+    text-align: center;
+  }
+
+  /* ── Inline framed split ── */
+  .split-block {
+    background: var(--og-pale);
+    padding: 6rem 2rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .split-inner {
+    max-width: 1060px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .split-inner.reverse { direction: rtl; }
+  .split-inner.reverse > * { direction: ltr; }
+
+  .split-text .section-label { margin-bottom: 1rem; }
+  .split-text .section-title { margin-bottom: 1.2rem; }
+
+  .frame-inline {
+    background: #fff8f3;
+    border: 5px solid #ffd0a0;
+    box-shadow: 8px 8px 0 #ffb06040;
+    padding: 8px;
+    position: relative;
+  }
+
+  .frame-inline::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid #ff8c3840;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .frame-inline img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+  }
+
+  .frame-inline-caption {
+    padding: 0.6rem 0.25rem 0.1rem;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #cc4400;
+    text-align: center;
+  }
+
+  /* ── Tall masonry row ── */
+  .masonry-row {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr 1fr;
+    gap: 1.5rem;
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 800px) {
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .split-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .split-inner.reverse { direction: ltr; }
+    .masonry-row { grid-template-columns: 1fr 1fr; }
+    .masonry-row .frame:last-child { display: none; }
+  }
+
   @media (max-width: 600px) {
     .nav-links { display: none; }
     .photo-strip { grid-template-columns: 1fr; height: auto; }
     .photo-strip-item { height: 260px; }
     .parallax { background-attachment: scroll; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .masonry-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -367,7 +500,41 @@
   </div>
 </section>
 
-<!-- ── PARALLAX 2 — WRAP ── -->
+<!-- ── FRAMED GALLERY ── -->
+<section class="gallery-section">
+  <div style="max-width: 1100px; width: 100%; text-align: center;">
+    <p class="section-label" style="color: var(--og-bright);">Galerie</p>
+    <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 400; color: #fff3eb; line-height: 1.15;">Aus unserer Küche.</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="frame">
+      <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=800&q=80" alt="Döner Wrap" loading="lazy">
+      <div class="frame-caption">Der Klassiker</div>
+    </div>
+    <div class="frame frame-tall">
+      <img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=800&q=80" alt="Döner am Spieß" loading="lazy">
+      <div class="frame-caption">Am Spieß</div>
+    </div>
+    <div class="frame">
+      <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&q=80" alt="Döner Bowl" loading="lazy">
+      <div class="frame-caption">Die Bowl</div>
+    </div>
+    <div class="frame">
+      <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&q=80" alt="Frische Zutaten" loading="lazy">
+      <div class="frame-caption">Frische Zutaten</div>
+    </div>
+    <div class="frame frame-tall">
+      <img src="https://images.unsplash.com/photo-1633321702518-7fecdcd570d4?w=800&q=80" alt="Handwerk" loading="lazy">
+      <div class="frame-caption">Handwerk</div>
+    </div>
+    <div class="frame">
+      <img src="https://images.unsplash.com/photo-1624300629298-e9de39c13be5?w=800&q=80" alt="Gewürze" loading="lazy">
+      <div class="frame-caption">Gewürze &amp; Aromen</div>
+    </div>
+  </div>
+</section>
+
+
 <section class="parallax parallax-dark" style="background-image: url('https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=1800&q=80');">
   <div class="parallax-content quote-content">
     <p class="big-quote">„Ein richtig gemachter Döner ist ein Spiel der Kontraste — knusprige Röstaromen gegen zartes Fleisch, kühle Knoblauchsoße gegen warme Gewürze."</p>
@@ -376,14 +543,43 @@
 </section>
 
 <!-- ── CRAFT ── -->
-<section class="content-block" id="craft">
-  <div class="content-inner">
-    <p class="section-label">Handwerk</p>
-    <h2 class="section-title">Den Spieß aufzubauen ist selbst eine Kunst.</h2>
-    <div class="divider"></div>
-    <div class="section-body">
-      <p>Jede Fleischschicht wird anders gewürzt. Fett wird dazwischengelegt, um die darunter liegenden Schichten zu übergießen, während sich der Spieß dreht. Die Außenfläche bräunt und knuspert; der Döner-Meister schabt sie mit langen, rhythmischen Zügen eines breiten Messers am Tisch ab.</p>
-      <p>Das Brot — ob dünnes Fladenbrot, weiches Pita oder gerolltes Yufka — wird direkt auf dem Grill erwärmt. Dann kommen die Essiggurken, der Toum, die Tahini, die Petersilie. Nichts wird überstürzt. Nichts ist optional.</p>
+<section class="split-block" id="craft">
+  <div class="split-inner">
+    <div class="split-text">
+      <p class="section-label">Handwerk</p>
+      <h2 class="section-title">Den Spieß aufzubauen ist selbst eine Kunst.</h2>
+      <div class="divider"></div>
+      <div class="section-body">
+        <p>Jede Fleischschicht wird anders gewürzt. Fett wird dazwischengelegt, um die darunter liegenden Schichten zu übergießen, während sich der Spieß dreht. Die Außenfläche bräunt und knuspert; der Döner-Meister schabt sie mit langen, rhythmischen Zügen eines breiten Messers am Tisch ab.</p>
+        <p>Das Brot — ob dünnes Fladenbrot, weiches Pita oder gerolltes Yufka — wird direkt auf dem Grill erwärmt. Dann kommen die Essiggurken, der Toum, die Tahini, die Petersilie. Nichts wird überstürzt. Nichts ist optional.</p>
+      </div>
+    </div>
+    <div>
+      <div class="frame-inline">
+        <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=900&q=85" alt="Döner Wrap Nahaufnahme" loading="lazy">
+        <div class="frame-inline-caption">Frisch geschnitten · Berlin</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SPLIT — SPICES IMAGE ── -->
+<section class="split-block" style="background: #fff8f3;">
+  <div class="split-inner reverse">
+    <div class="split-text">
+      <p class="section-label">Die Zutaten</p>
+      <h2 class="section-title">Frische, die man schmeckt.</h2>
+      <div class="divider"></div>
+      <div class="section-body">
+        <p>Kein Tiefkühlprodukt. Kein Kompromiss. Jedes Gemüse wird täglich frisch geschnitten, jede Soße hausgemacht zubereitet. Die knusprigen Zwiebeln, die cremige Knoblauchsoße, das zarte Fladenbrot — alles beginnt mit besten Rohstoffen.</p>
+        <p>Das ist das Versprechen von Original German Doner: Qualität, die man sieht, riecht und schmeckt.</p>
+      </div>
+    </div>
+    <div>
+      <div class="frame-inline" style="box-shadow: -8px 8px 0 #ffb06040;">
+        <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=900&q=85" alt="Frische Döner-Zutaten" loading="lazy">
+        <div class="frame-inline-caption">Täglich frisch · Hausgemacht</div>
+      </div>
     </div>
   </div>
 </section>
@@ -445,6 +641,34 @@
       <p><strong style="color: #1a0800;">Irakisch</strong> — Stärker gewürzt, in einer dicken Brottasche mit Kartoffelchips und Sumach-Zwiebeln serviert.</p>
       <p><strong style="color: #1a0800;">Ägyptisch</strong> — Oft Rind oder Kofta, in einem gerösteten Brötchen mit Tahini und einem säuerlichen Salat serviert.</p>
       <p><strong style="color: #1a0800;">Golf-Stil</strong> — Mildere Würzung, mehr Knoblauchsoße, manchmal mit Pommes frites im Wrap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── MASONRY FRAME ROW ── -->
+<section class="gallery-section" style="padding: 5rem 2rem;">
+  <div style="max-width: 1100px; width: 100%; text-align: center;">
+    <p class="section-label" style="color: var(--og-bright);">Momente</p>
+    <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 400; color: #fff3eb;">Von der Straße auf den Tisch.</h2>
+  </div>
+  <div class="masonry-row">
+    <div class="frame frame-tall">
+      <img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=800&q=80" alt="Döner am Spieß" loading="lazy">
+      <div class="frame-caption">Der Spieß dreht sich</div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div class="frame">
+        <img src="https://images.unsplash.com/photo-1633321702518-7fecdcd570d4?w=800&q=80" alt="Döner Detail" loading="lazy">
+        <div class="frame-caption">Knusprig &amp; zart</div>
+      </div>
+      <div class="frame">
+        <img src="https://images.unsplash.com/photo-1624300629298-e9de39c13be5?w=800&q=80" alt="Gewürze" loading="lazy">
+        <div class="frame-caption">Geheime Mischung</div>
+      </div>
+    </div>
+    <div class="frame frame-tall">
+      <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&q=80" alt="Döner Teller" loading="lazy">
+      <div class="frame-caption">Servierfertig</div>
     </div>
   </div>
 </section>
