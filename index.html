@@ -3,14 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shawarma — The Art of the Soul</title>
+<title>Original German Doner — The Art of the Spit</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --og: #ff5a00;
+    --og-bright: #ff7a2e;
+    --og-deep: #cc3d00;
+    --og-glow: #ff9048;
+    --og-pale: #fff3eb;
+    --dark: #130400;
+  }
+
   body {
     font-family: 'Georgia', serif;
-    color: #1a1107;
-    background: #0f0a04;
+    color: #1a0800;
+    background: var(--dark);
     overflow-x: hidden;
   }
 
@@ -32,10 +41,10 @@
     inset: 0;
   }
 
-  .parallax-hero::after       { background: rgba(10,5,0,0.52); }
-  .parallax-dark::after       { background: rgba(10,5,0,0.60); }
-  .parallax-mid::after        { background: rgba(10,5,0,0.45); }
-  .parallax-light::after      { background: rgba(10,5,0,0.35); }
+  .parallax-hero::after       { background: rgba(30,6,0,0.58); }
+  .parallax-dark::after       { background: rgba(30,6,0,0.65); }
+  .parallax-mid::after        { background: rgba(30,6,0,0.48); }
+  .parallax-light::after      { background: rgba(30,6,0,0.38); }
 
   .parallax-content {
     position: relative;
@@ -51,7 +60,7 @@
     font-size: 0.78rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: #f5c96a;
+    color: var(--og-glow);
     margin-bottom: 1.4rem;
     font-family: 'Helvetica Neue', sans-serif;
     font-weight: 400;
@@ -68,7 +77,7 @@
 
   .hero-title em {
     font-style: italic;
-    color: #f5c96a;
+    color: var(--og-glow);
   }
 
   .hero-subtitle {
@@ -83,7 +92,7 @@
 
   /* ── Content blocks ── */
   .content-block {
-    background: #fdf6ec;
+    background: var(--og-pale);
     padding: 7rem 2rem;
     display: flex;
     flex-direction: column;
@@ -99,7 +108,7 @@
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #b8783a;
+    color: var(--og);
     font-family: 'Helvetica Neue', sans-serif;
     margin-bottom: 1.2rem;
   }
@@ -108,25 +117,24 @@
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 400;
     line-height: 1.15;
-    color: #1a0f02;
+    color: #1a0800;
     margin-bottom: 1.8rem;
   }
 
   .section-body {
     font-size: 1.125rem;
     line-height: 1.85;
-    color: #4a3520;
+    color: #4a1800;
     font-family: 'Helvetica Neue', sans-serif;
     font-weight: 300;
   }
 
   .section-body p + p { margin-top: 1.2rem; }
 
-  /* ── Divider ── */
   .divider {
     width: 48px;
     height: 2px;
-    background: #c8843e;
+    background: var(--og);
     margin: 2.4rem 0;
   }
 
@@ -140,14 +148,14 @@
 
   .feature-card {
     padding: 2rem 1.5rem;
-    border: 1px solid #e8d5b8;
+    border: 1px solid #ffd0b0;
     border-radius: 4px;
-    background: #fffaf3;
+    background: #fff8f3;
   }
 
   .feature-number {
     font-size: 2.5rem;
-    color: #c8843e;
+    color: var(--og);
     font-weight: 400;
     line-height: 1;
     margin-bottom: 0.75rem;
@@ -156,14 +164,14 @@
   .feature-label {
     font-size: 1rem;
     font-weight: 500;
-    color: #1a0f02;
+    color: #1a0800;
     font-family: 'Helvetica Neue', sans-serif;
     margin-bottom: 0.5rem;
   }
 
   .feature-desc {
     font-size: 0.875rem;
-    color: #7a5c3a;
+    color: #7a2e00;
     font-family: 'Helvetica Neue', sans-serif;
     line-height: 1.6;
   }
@@ -187,21 +195,21 @@
     font-size: 0.875rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #f5c96a;
+    color: var(--og-glow);
     font-family: 'Helvetica Neue', sans-serif;
   }
 
   /* ── Ingredients strip ── */
   .ingredients-strip {
-    background: #1a0f02;
+    background: #1a0400;
     padding: 5rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .ingredients-strip .section-label { color: #c8843e; }
-  .ingredients-strip .section-title { color: #fdf6ec; }
+  .ingredients-strip .section-label { color: var(--og-bright); }
+  .ingredients-strip .section-title { color: #fff3eb; }
 
   .spice-list {
     display: flex;
@@ -213,10 +221,10 @@
 
   .spice-tag {
     padding: 0.55rem 1.25rem;
-    border: 1px solid #4a3520;
+    border: 1px solid #6a1a00;
     border-radius: 100px;
     font-size: 0.875rem;
-    color: #e8c896;
+    color: #ffb080;
     font-family: 'Helvetica Neue', sans-serif;
     letter-spacing: 0.05em;
   }
@@ -254,7 +262,7 @@
     display: inline-block;
     margin-top: 2.5rem;
     padding: 1rem 2.5rem;
-    background: #c8843e;
+    background: var(--og);
     color: #fff;
     font-family: 'Helvetica Neue', sans-serif;
     font-size: 0.875rem;
@@ -277,10 +285,12 @@
   }
 
   .nav-logo {
-    font-size: 1.1rem;
-    color: #f5c96a;
-    letter-spacing: 0.08em;
+    font-size: 1rem;
+    color: var(--og-glow);
+    letter-spacing: 0.06em;
     font-weight: 400;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-transform: uppercase;
   }
 
   .nav-links {
@@ -309,7 +319,7 @@
 <body>
 
 <nav>
-  <span class="nav-logo">Shawarma</span>
+  <span class="nav-logo">Original German Doner</span>
   <ul class="nav-links">
     <li><a href="#origin">Origin</a></li>
     <li><a href="#craft">Craft</a></li>
@@ -321,9 +331,9 @@
 <!-- ── HERO ── -->
 <section class="parallax parallax-hero" style="background-image: url('https://images.unsplash.com/photo-1546793665-c74683f339c1?w=1800&q=80');">
   <div class="parallax-content">
-    <p class="hero-eyebrow">Middle Eastern Heritage · Street Food Culture</p>
-    <h1 class="hero-title">The Art of<br><em>Shawarma</em></h1>
-    <p class="hero-subtitle">Seasoned. Stacked. Slow-roasted on the spit. A culinary tradition forged over centuries across the Levant.</p>
+    <p class="hero-eyebrow">Berlin · London · Dubai · Riyadh</p>
+    <h1 class="hero-title">Original<br><em>German Doner</em></h1>
+    <p class="hero-subtitle">Seasoned. Stacked. Slow-roasted on the spit. Germany's most iconic döner — now beloved across the globe.</p>
   </div>
 </section>
 
@@ -331,11 +341,11 @@
 <section class="content-block" id="origin">
   <div class="content-inner">
     <p class="section-label">Origin</p>
-    <h2 class="section-title">Born from the Ottoman Empire, beloved by the world.</h2>
+    <h2 class="section-title">Born in Berlin, perfected for the world.</h2>
     <div class="divider"></div>
     <div class="section-body">
-      <p>Shawarma traces its roots to the <em>döner kebab</em> of 19th-century Ottoman Turkey — meat stacked on a vertical spit, slowly turning beside a flame. As the dish travelled through the Levant, it transformed into something distinctly its own: marinated layers of lamb, chicken, or beef, perfumed with cumin, cinnamon, and cardamom.</p>
-      <p>Today it feeds millions daily — from Beirut streetside carts to London wrap shops — carrying with it the flavour of a culture that never tired of feeding strangers well.</p>
+      <p>The döner kebab was born in 1970s West Berlin, where Turkish immigrants transformed a centuries-old vertical spit tradition into a street food phenomenon. Kadir Nurman is credited with the first Berlin-style döner — meat, salad, and sauce folded into flatbread — served fast, eaten standing.</p>
+      <p>Original German Doner takes that heritage seriously. Premium cuts, freshly baked bread, house-made sauces — none of it compromised. What began as a street cart feeds millions today, from Berlin to the Gulf.</p>
     </div>
     <div class="feature-grid">
       <div class="feature-card">
@@ -391,7 +401,7 @@
     <p class="section-label">The Spice Profile</p>
     <h2 class="section-title">What gives shawarma its soul.</h2>
     <div class="divider" style="margin: 2rem auto;"></div>
-    <p style="font-size: 1.05rem; color: #c8a870; font-family: 'Helvetica Neue', sans-serif; font-weight: 300; line-height: 1.8; max-width: 600px; margin: 0 auto;">
+    <p style="font-size: 1.05rem; color: #ff9a60; font-family: 'Helvetica Neue', sans-serif; font-weight: 300; line-height: 1.8; max-width: 600px; margin: 0 auto;">
       Every cook guards their blend. But certain spices are universal — the backbone of every great marinade, from Damascus to Dearborn.
     </p>
     <div class="spice-list">
@@ -430,11 +440,11 @@
     <h2 class="section-title">One dish, many accents.</h2>
     <div class="divider"></div>
     <div class="section-body">
-      <p><strong style="color: #1a0f02;">Lebanese</strong> — Wrapped in markouk with toum (garlic cream), pickles, and tomatoes. Often chicken, always generous.</p>
-      <p><strong style="color: #1a0f02;">Turkish döner</strong> — The ancestor. Served in a dürüm roll or over rice with yogurt and chilli butter.</p>
-      <p><strong style="color: #1a0f02;">Iraqi</strong> — Heavier spicing, served in a bulkier bread pocket with potato crisps and sumac onions.</p>
-      <p><strong style="color: #1a0f02;">Egyptian</strong> — Often beef or kofta, served in a toasted bun with tahini and a vinegary salad.</p>
-      <p><strong style="color: #1a0f02;">Gulf-style</strong> — Milder spicing, more garlic sauce, sometimes with chips tucked inside the wrap.</p>
+      <p><strong style="color: #1a0800;">Lebanese</strong> — Wrapped in markouk with toum (garlic cream), pickles, and tomatoes. Often chicken, always generous.</p>
+      <p><strong style="color: #1a0800;">Turkish döner</strong> — The ancestor. Served in a dürüm roll or over rice with yogurt and chilli butter.</p>
+      <p><strong style="color: #1a0800;">Iraqi</strong> — Heavier spicing, served in a bulkier bread pocket with potato crisps and sumac onions.</p>
+      <p><strong style="color: #1a0800;">Egyptian</strong> — Often beef or kofta, served in a toasted bun with tahini and a vinegary salad.</p>
+      <p><strong style="color: #1a0800;">Gulf-style</strong> — Milder spicing, more garlic sauce, sometimes with chips tucked inside the wrap.</p>
     </div>
   </div>
 </section>
@@ -449,9 +459,9 @@
 </section>
 
 <!-- ── FOOTER BAR ── -->
-<footer style="background: #0a0500; padding: 2.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-  <span style="color: #4a3520; font-family: 'Helvetica Neue', sans-serif; font-size: 0.8rem;">© 2025 Shawarma — The Art of the Spit</span>
-  <span style="color: #4a3520; font-family: 'Helvetica Neue', sans-serif; font-size: 0.8rem;">Photography via Unsplash</span>
+<footer style="background: #0d0200; padding: 2.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+  <span style="color: #6a2200; font-family: 'Helvetica Neue', sans-serif; font-size: 0.8rem;">© 2025 Original German Doner</span>
+  <span style="color: #6a2200; font-family: 'Helvetica Neue', sans-serif; font-size: 0.8rem;">Photography via Unsplash</span>
 </footer>
 
 </body>
