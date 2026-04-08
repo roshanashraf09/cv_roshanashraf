@@ -138,86 +138,64 @@
   /* decorative circle */
   .hero-circle {
     position: absolute;
-    right: 8%;
+    right: 6%;
     top: 50%;
     transform: translateY(-50%);
-    width: min(520px, 48vw);
-    height: min(520px, 48vw);
+    width: min(520px, 46vw);
+    height: min(520px, 46vw);
     border-radius: 50%;
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
   .hero-circle::before {
     content: '';
     position: absolute;
-    inset: 18px;
+    inset: 0;
     border-radius: 50%;
-    border: 1px solid rgba(200,146,42,0.08);
+    border: 12px solid var(--black);
+    z-index: 2;
+    pointer-events: none;
   }
 
   .hero-circle::after {
     content: '';
     position: absolute;
-    inset: 40px;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(255,98,0,0.22) 0%, transparent 70%);
-  }
-
-  /* skewer inside circle */
-  .spit {
-    position: relative;
-    width: 160px;
-    height: 380px;
-    z-index: 1;
-  }
-
-  .spit-rod {
-    position: absolute;
-    left: 50%;
-    top: 3%;
-    transform: translateX(-50%);
-    width: 5px;
-    height: 94%;
-    background: linear-gradient(to bottom, #CC5500, #FF7A00, #CC5500);
-    border-radius: 3px;
-    box-shadow: 0 0 40px rgba(200,146,42,0.25);
-  }
-
-  .layer {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 4px;
-  }
-
-  .l1 { width:130px; height:40px; top:8%;  background: linear-gradient(135deg,#6B2510,#A83820,#6B2510); }
-  .l2 { width:148px; height:38px; top:19%; background: linear-gradient(135deg,#5E2008,#963010,#5E2008); }
-  .l3 { width:140px; height:40px; top:30%; background: linear-gradient(135deg,#6B2510,#A83820,#6B2510); }
-  .l4 { width:155px; height:38px; top:41%; background: linear-gradient(135deg,#5E2008,#963010,#5E2008); }
-  .l5 { width:145px; height:40px; top:52%; background: linear-gradient(135deg,#6B2510,#A83820,#6B2510); }
-  .l6 { width:135px; height:36px; top:62%; background: linear-gradient(135deg,#5E2008,#963010,#5E2008); }
-  .l7 { width:125px; height:36px; top:72%; background: linear-gradient(135deg,#6B2510,#A83820,#6B2510); }
-
-  .layer::after {
-    content: '';
-    position: absolute;
     inset: 0;
-    border-radius: 4px;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent 40%, rgba(0,0,0,0.35));
+    border-radius: 50%;
+    background: linear-gradient(to bottom, rgba(14,8,0,0.15) 0%, rgba(14,8,0,0.55) 100%);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    filter: saturate(1.15) contrast(1.05);
+    animation: slowZoom 14s ease-in-out infinite alternate;
+  }
+
+  @keyframes slowZoom {
+    from { transform: scale(1); }
+    to   { transform: scale(1.07); }
   }
 
   .glow-base {
     position: absolute;
-    bottom: -20px;
+    bottom: -40px;
     left: 50%;
     transform: translateX(-50%);
-    width: 220px;
-    height: 120px;
-    background: radial-gradient(ellipse, rgba(255,98,0,0.7) 0%, rgba(255,61,0,0.3) 40%, transparent 70%);
-    filter: blur(18px);
+    width: 120%;
+    height: 160px;
+    background: radial-gradient(ellipse, rgba(255,98,0,0.6) 0%, rgba(255,61,0,0.2) 45%, transparent 70%);
+    filter: blur(24px);
+    z-index: 0;
     animation: pulse 2.5s ease-in-out infinite alternate;
   }
 
@@ -795,17 +773,13 @@
   <div class="hero-bg"></div>
 
   <div class="hero-circle">
-    <div class="spit">
-      <div class="spit-rod"></div>
-      <div class="layer l1"></div>
-      <div class="layer l2"></div>
-      <div class="layer l3"></div>
-      <div class="layer l4"></div>
-      <div class="layer l5"></div>
-      <div class="layer l6"></div>
-      <div class="layer l7"></div>
-      <div class="glow-base"></div>
-    </div>
+    <img
+      class="hero-img"
+      src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=900&auto=format&fit=crop&q=80"
+      alt="Shawarma"
+      onerror="this.src='https://source.unsplash.com/featured/900x900/?shawarma,kebab,doner'"
+    />
+    <div class="glow-base"></div>
   </div>
 
   <div class="hero-content">
