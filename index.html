@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Original German Doner</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=Noto+Sans+Arabic:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --gold: #FF6200;
@@ -28,7 +28,8 @@
     overflow-x: hidden;
   }
 
-  /* GRAIN */
+  body.rtl { font-family: 'Noto Sans Arabic', sans-serif; }
+
   body::after {
     content: '';
     position: fixed;
@@ -38,6 +39,105 @@
     z-index: 9999;
     opacity: 0.4;
   }
+
+  /* ── COUNTRY PICKER MODAL ── */
+  .country-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(14,8,0,0.97);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.4s ease;
+  }
+
+  .country-modal.hidden { display: none; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .country-modal-box {
+    text-align: center;
+    max-width: 580px;
+    width: 90%;
+    padding: 3rem 2rem;
+    animation: slideUp 0.4s ease;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-eyebrow {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .modal-eyebrow::before, .modal-eyebrow::after {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--gold);
+    display: inline-block;
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+  }
+
+  .modal-title em { font-style: italic; color: var(--gold); }
+
+  .modal-sub {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+
+  .country-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .country-btn {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--cream);
+    padding: 1rem 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: inherit;
+  }
+
+  .country-btn:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--black);
+    transform: translateY(-2px);
+  }
+
+  .country-btn .flag { font-size: 1.8rem; }
+  .country-btn .c-name { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  .country-btn .c-lang { font-size: 0.62rem; font-weight: 300; opacity: 0.6; }
 
   /* ── NAV ── */
   nav {
@@ -67,64 +167,48 @@
     line-height: 1;
   }
 
-  .nav-logo-top {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.6rem;
-    font-weight: 500;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  .nav-logo-main {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    font-weight: 900;
-    color: var(--cream);
-    letter-spacing: 0.04em;
-  }
+  .nav-logo-top { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); }
+  .nav-logo-main { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--cream); letter-spacing: 0.04em; }
 
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 2.5rem;
+    gap: 2rem;
     list-style: none;
     position: relative;
     z-index: 1;
   }
 
-  .nav-links a {
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
+  .nav-links a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--cream); }
 
-  .nav-cta {
-    background: var(--gold) !important;
-    color: var(--black) !important;
-    padding: 0.55rem 1.4rem;
-    font-weight: 500 !important;
-    letter-spacing: 0.12em;
-    transition: background 0.2s !important;
-  }
-
+  .nav-cta { background: var(--gold) !important; color: var(--black) !important; padding: 0.55rem 1.4rem; font-weight: 500 !important; transition: background 0.2s !important; }
   .nav-cta:hover { background: var(--gold-light) !important; }
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
+  .lang-switcher {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
-    position: relative;
-    overflow: hidden;
-    padding: 0 5rem;
+    gap: 0.5rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--cream);
+    user-select: none;
   }
+
+  .lang-switcher:hover { border-color: var(--gold); }
+  .ls-flag { font-size: 1rem; }
+  .ls-arrow { font-size: 0.5rem; opacity: 0.5; margin-left: 0.2rem; }
+
+  /* ── HERO ── */
+  .hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 0 5rem; }
 
   .hero-bg {
     position: absolute;
@@ -135,7 +219,6 @@
       var(--black);
   }
 
-  /* decorative circle */
   .hero-circle {
     position: absolute;
     right: 6%;
@@ -151,51 +234,20 @@
     overflow: hidden;
   }
 
-  .hero-circle::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 12px solid var(--black);
-    z-index: 2;
-    pointer-events: none;
-  }
+  .rtl .hero-circle { right: auto; left: 6%; }
 
-  .hero-circle::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: linear-gradient(to bottom, rgba(14,8,0,0.15) 0%, rgba(14,8,0,0.55) 100%);
-    z-index: 3;
-    pointer-events: none;
-  }
+  .hero-circle::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 12px solid var(--black); z-index: 2; pointer-events: none; }
+  .hero-circle::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: linear-gradient(to bottom, rgba(14,8,0,0.15) 0%, rgba(14,8,0,0.55) 100%); z-index: 3; pointer-events: none; }
 
-  .hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    display: block;
-    filter: saturate(1.15) contrast(1.05);
-    animation: slowZoom 14s ease-in-out infinite alternate;
-  }
+  .hero-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; filter: saturate(1.15) contrast(1.05); animation: slowZoom 14s ease-in-out infinite alternate; }
 
-  @keyframes slowZoom {
-    from { transform: scale(1); }
-    to   { transform: scale(1.07); }
-  }
+  @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.07); } }
 
   .glow-base {
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120%;
-    height: 160px;
+    position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
+    width: 120%; height: 160px;
     background: radial-gradient(ellipse, rgba(255,98,0,0.6) 0%, rgba(255,61,0,0.2) 45%, transparent 70%);
-    filter: blur(24px);
-    z-index: 0;
+    filter: blur(24px); z-index: 0;
     animation: pulse 2.5s ease-in-out infinite alternate;
   }
 
@@ -204,538 +256,138 @@
     to   { opacity: 1;   transform: translateX(-50%) scale(1.05); }
   }
 
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 580px;
-  }
+  .hero-content { position: relative; z-index: 2; max-width: 580px; }
 
   .hero-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.8rem;
+    display: flex; align-items: center; gap: 0.8rem;
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.8rem;
   }
 
-  .hero-eyebrow::before {
-    content: '';
-    width: 2.5rem;
-    height: 1px;
-    background: var(--gold);
-  }
+  .hero-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--gold); flex-shrink: 0; }
 
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3.8rem, 7vw, 6.5rem);
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.01em;
-    margin-bottom: 2rem;
-  }
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.8rem, 7vw, 6.5rem); font-weight: 900; line-height: 1; letter-spacing: -0.01em; margin-bottom: 2rem; }
+  .rtl h1 { font-family: 'Noto Sans Arabic', sans-serif; font-size: clamp(2.8rem, 5vw, 5rem); line-height: 1.3; }
+  h1 em { font-style: italic; color: var(--gold); }
 
-  h1 em {
-    font-style: italic;
-    color: var(--gold);
-  }
+  .hero-desc { font-size: 1rem; font-weight: 300; line-height: 1.8; color: var(--muted); max-width: 400px; margin-bottom: 3rem; }
 
-  .hero-desc {
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.8;
-    color: var(--muted);
-    max-width: 400px;
-    margin-bottom: 3rem;
-  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
 
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
+  .btn { font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; display: inline-block; padding: 0.95rem 2rem; transition: all 0.2s; }
+  .rtl .btn { font-family: 'Noto Sans Arabic', sans-serif; letter-spacing: 0; }
 
-  .btn {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    display: inline-block;
-    padding: 0.95rem 2rem;
-    transition: all 0.2s;
-  }
-
-  .btn-gold {
-    background: var(--gold);
-    color: var(--black);
-  }
+  .btn-gold { background: var(--gold); color: var(--black); }
   .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: var(--cream); border: 1px solid rgba(255,240,224,0.2); }
+  .btn-outline:hover { border-color: rgba(255,240,224,0.6); }
 
-  .btn-outline {
-    background: transparent;
-    color: var(--cream);
-    border: 1px solid rgba(242,232,213,0.2);
-  }
-  .btn-outline:hover { border-color: rgba(242,232,213,0.6); }
-
-  .hero-badge {
-    position: absolute;
-    bottom: 3rem;
-    left: 5rem;
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    z-index: 2;
-  }
-
-  .badge-line {
-    width: 0;
-    height: 1px;
-    background: var(--gold);
-    animation: growLine 1.2s ease forwards 0.8s;
-  }
-
+  .hero-badge { position: absolute; bottom: 3rem; left: 5rem; display: flex; align-items: center; gap: 1.2rem; z-index: 2; }
+  .rtl .hero-badge { left: auto; right: 5rem; flex-direction: row-reverse; }
+  .badge-line { width: 0; height: 1px; background: var(--gold); animation: growLine 1.2s ease forwards 0.8s; }
   @keyframes growLine { to { width: 2.5rem; } }
-
-  .badge-text {
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(138,122,101,0.7);
-  }
+  .badge-text { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(176,112,64,0.7); }
 
   /* ── STRIP ── */
-  .strip {
-    background: var(--gold);
-    padding: 1rem 0;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .strip-track {
-    display: inline-flex;
-    animation: ticker 22s linear infinite;
-  }
-
-  .strip-item {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.95rem;
-    font-style: italic;
-    color: var(--black);
-    padding: 0 2rem;
-    opacity: 0.85;
-  }
-
-  .strip-dot { opacity: 0.4; padding: 0 0.5rem; }
-
+  .strip { background: var(--gold); padding: 1rem 0; overflow: hidden; white-space: nowrap; }
+  .strip-track { display: inline-flex; animation: ticker 22s linear infinite; }
+  .strip-item { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-style: italic; color: var(--black); padding: 0 2rem; opacity: 0.85; }
+  .rtl .strip-item { font-family: 'Noto Sans Arabic', sans-serif; font-style: normal; }
+  .strip-dot { opacity: 0.4; padding: 0 0.5rem; color: var(--black); }
   @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
   /* ── PROMISE ── */
-  .promise {
-    padding: 8rem 5rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: center;
-    max-width: 1300px;
-    margin: 0 auto;
-  }
+  .promise { padding: 8rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; max-width: 1300px; margin: 0 auto; }
 
-  .promise-label {
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
+  .promise-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.8rem; }
+  .promise-label::before { content: ''; width: 1.5rem; height: 1px; background: var(--gold); flex-shrink: 0; }
 
-  .promise-label::before { content: ''; width: 1.5rem; height: 1px; background: var(--gold); }
-
-  .promise h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 4.5vw, 4rem);
-    font-weight: 900;
-    line-height: 1.08;
-    margin-bottom: 1.8rem;
-  }
-
+  .promise h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4.5vw, 4rem); font-weight: 900; line-height: 1.08; margin-bottom: 1.8rem; }
   .promise h2 em { font-style: italic; color: var(--gold); }
+  .promise p { font-size: 0.95rem; font-weight: 300; line-height: 1.85; color: var(--muted); margin-bottom: 1.2rem; }
 
-  .promise p {
-    font-size: 0.95rem;
-    font-weight: 300;
-    line-height: 1.85;
-    color: var(--muted);
-    margin-bottom: 1.2rem;
-  }
+  .rtl .promise h2, .rtl .menu-header h2, .rtl .visit h2, .rtl .cta h2 { font-family: 'Noto Sans Arabic', sans-serif; font-size: clamp(1.8rem, 3.5vw, 3rem); line-height: 1.3; }
 
-  .promise-pillars {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border: 1px solid var(--border);
-  }
+  .promise-pillars { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
 
-  .pillar {
-    padding: 1.8rem 2rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 1.4rem;
-    align-items: flex-start;
-    transition: background 0.25s;
-    cursor: default;
-  }
-
+  .pillar { padding: 1.8rem 2rem; border-bottom: 1px solid var(--border); display: flex; gap: 1.4rem; align-items: flex-start; transition: background 0.25s; cursor: default; }
   .pillar:last-child { border-bottom: none; }
   .pillar:hover { background: var(--panel); }
+  .pillar-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .pillar-body h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .rtl .pillar-body h4 { font-family: 'Noto Sans Arabic', sans-serif; }
+  .pillar-body p { font-size: 0.82rem; font-weight: 300; line-height: 1.7; color: var(--muted); margin: 0; }
 
-  .pillar-icon {
-    font-size: 1.5rem;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
-
-  .pillar-body h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 0.4rem;
-  }
-
-  .pillar-body p {
-    font-size: 0.82rem;
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--muted);
-    margin: 0;
-  }
-
-  /* ── MENU PREVIEW ── */
-  .menu-section {
-    padding: 6rem 5rem;
-    background: var(--dark);
-  }
-
+  /* ── MENU ── */
+  .menu-section { padding: 6rem 5rem; background: var(--dark); }
   .menu-inner { max-width: 1300px; margin: 0 auto; }
-
-  .menu-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 3.5rem;
-  }
-
-  .menu-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 4vw, 3.8rem);
-    font-weight: 900;
-    line-height: 1;
-  }
-
+  .menu-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3.5rem; }
+  .menu-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4vw, 3.8rem); font-weight: 900; line-height: 1; }
   .menu-header h2 em { font-style: italic; color: var(--gold); }
 
-  .view-all {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(200,146,42,0.3);
-    padding-bottom: 0.2rem;
-    transition: border-color 0.2s;
-    margin-bottom: 0.4rem;
-    white-space: nowrap;
-  }
-
+  .view-all { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(255,98,0,0.3); padding-bottom: 0.2rem; transition: border-color 0.2s; margin-bottom: 0.4rem; white-space: nowrap; }
   .view-all:hover { border-color: var(--gold); }
 
-  .menu-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border);
-  }
+  .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
 
-  .menu-card {
-    background: var(--dark);
-    padding: 2rem 1.8rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    transition: background 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .menu-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s;
-  }
-
+  .menu-card { background: var(--dark); padding: 2rem 1.8rem; display: flex; flex-direction: column; gap: 0.8rem; transition: background 0.25s; position: relative; overflow: hidden; }
+  .menu-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
   .menu-card:hover { background: var(--panel); }
   .menu-card:hover::after { transform: scaleX(1); }
 
   .card-emoji { font-size: 2rem; }
-
-  .card-tag {
-    display: inline-block;
-    background: rgba(255,98,0,0.18);
-    color: var(--gold);
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.6rem;
-    align-self: flex-start;
-  }
-
-  .card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .card-desc {
-    font-size: 0.82rem;
-    font-weight: 300;
-    line-height: 1.65;
-    color: var(--muted);
-    flex: 1;
-  }
-
-  .card-price {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--gold);
-    margin-top: 0.4rem;
-  }
+  .card-tag { display: inline-block; background: rgba(255,98,0,0.18); color: var(--gold); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.2rem 0.6rem; align-self: flex-start; }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; line-height: 1.2; }
+  .rtl .card-title { font-family: 'Noto Sans Arabic', sans-serif; }
+  .card-desc { font-size: 0.82rem; font-weight: 300; line-height: 1.65; color: var(--muted); flex: 1; }
+  .card-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); margin-top: 0.4rem; }
 
   /* ── VISIT ── */
-  .visit {
-    padding: 7rem 5rem;
-    max-width: 1300px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: start;
-  }
-
-  .visit h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 4vw, 3.8rem);
-    font-weight: 900;
-    line-height: 1.05;
-    margin-bottom: 2rem;
-  }
-
+  .visit { padding: 7rem 5rem; max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .visit h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4vw, 3.8rem); font-weight: 900; line-height: 1.05; margin-bottom: 2rem; }
   .visit h2 em { font-style: italic; color: var(--gold); }
 
-  .info-block {
-    border: 1px solid var(--border);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
+  .info-block { border: 1px solid var(--border); padding: 2rem; display: flex; flex-direction: column; gap: 2rem; }
+  .info-row { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .info-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .info-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+  .info-val { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; }
+  .rtl .info-val { font-family: 'Noto Sans Arabic', sans-serif; }
+  .info-sub { font-size: 0.82rem; font-weight: 300; color: var(--muted); margin-top: 0.2rem; line-height: 1.6; }
 
-  .info-row {
-    display: flex;
-    gap: 1.2rem;
-    align-items: flex-start;
-  }
-
-  .info-icon {
-    font-size: 1.2rem;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
-
-  .info-label {
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.3rem;
-  }
-
-  .info-val {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-weight: 700;
-  }
-
-  .info-sub {
-    font-size: 0.82rem;
-    font-weight: 300;
-    color: var(--muted);
-    margin-top: 0.2rem;
-    line-height: 1.6;
-  }
-
-  .hours-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.3rem 1.5rem;
-    margin-top: 0.5rem;
-  }
-
-  .hours-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.82rem;
-    font-weight: 300;
-    color: var(--muted);
-    padding: 0.3rem 0;
-    border-bottom: 1px solid rgba(255,98,0,0.15);
-  }
-
+  .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 1.5rem; margin-top: 0.5rem; }
+  .hours-row { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 300; color: var(--muted); padding: 0.3rem 0; border-bottom: 1px solid rgba(255,98,0,0.15); }
   .hours-row span:last-child { color: var(--cream); font-weight: 400; }
 
-  .visit-cta {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .visit-cta p {
-    font-size: 0.92rem;
-    font-weight: 300;
-    color: var(--muted);
-    line-height: 1.75;
-    margin-bottom: 0.5rem;
-  }
+  .visit-cta { display: flex; flex-direction: column; gap: 1rem; }
+  .visit-cta p { font-size: 0.92rem; font-weight: 300; color: var(--muted); line-height: 1.75; margin-bottom: 0.5rem; }
 
   /* ── CTA ── */
-  .cta {
-    background: var(--panel);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    text-align: center;
-    padding: 7rem 5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,98,0,0.2) 0%, transparent 65%);
-  }
-
+  .cta { background: var(--panel); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; padding: 7rem 5rem; position: relative; overflow: hidden; }
+  .cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,98,0,0.2) 0%, transparent 65%); }
   .cta-inner { position: relative; }
-
-  .cta h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.8rem, 5vw, 5rem);
-    font-weight: 900;
-    line-height: 1.05;
-    margin-bottom: 1.2rem;
-  }
-
+  .cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 5vw, 5rem); font-weight: 900; line-height: 1.05; margin-bottom: 1.2rem; }
   .cta h2 em { font-style: italic; color: var(--gold); }
-
-  .cta p {
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: var(--muted);
-    margin-bottom: 2.5rem;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  .cta p { font-size: 0.95rem; font-weight: 300; color: var(--muted); margin-bottom: 2.5rem; max-width: 400px; margin-left: auto; margin-right: auto; }
 
   /* ── FOOTER ── */
-  footer {
-    background: var(--black);
-    padding: 3.5rem 5rem;
-  }
-
-  .footer-inner {
-    max-width: 1300px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-  }
-
-  .footer-brand {
-    text-decoration: none;
-  }
-
-  .footer-brand-top {
-    font-size: 0.6rem;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: block;
-  }
-
-  .footer-brand-main {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: var(--cream);
-    display: block;
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-    flex-wrap: wrap;
-  }
-
-  .footer-links a {
-    font-size: 0.75rem;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
+  footer { background: var(--black); padding: 3.5rem 5rem; }
+  .footer-inner { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+  .footer-brand { text-decoration: none; }
+  .footer-brand-top { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); display: block; }
+  .footer-brand-main { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 900; color: var(--cream); display: block; }
+  .footer-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+  .footer-links a { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
   .footer-links a:hover { color: var(--cream); }
-
-  .footer-copy {
-    font-size: 0.72rem;
-    color: rgba(138,122,101,0.45);
-    letter-spacing: 0.05em;
-  }
+  .footer-copy { font-size: 0.72rem; color: rgba(138,122,101,0.45); letter-spacing: 0.05em; }
 
   /* ── FADE-UP ── */
-  .fu {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
-  }
+  .fu { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
   .fu.on { opacity: 1; transform: translateY(0); }
+
+  /* ── LANG TRANSITION ── */
+  .lang-fade { animation: langSwap 0.35s ease; }
+  @keyframes langSwap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
@@ -750,113 +402,149 @@
     .cta { padding: 5rem 1.5rem; }
     footer { padding: 2.5rem 1.5rem; }
     .footer-inner { flex-direction: column; align-items: flex-start; }
+    .country-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
 <body>
 
+<!-- COUNTRY PICKER MODAL -->
+<div class="country-modal" id="countryModal">
+  <div class="country-modal-box">
+    <div class="modal-eyebrow">Welcome</div>
+    <h2 class="modal-title">Original <em>German</em> Doner</h2>
+    <p class="modal-sub">Select your country to continue</p>
+    <div class="country-grid">
+      <button class="country-btn" onclick="setCountry('de')">
+        <span class="flag">🇩🇪</span>
+        <span class="c-name">Germany</span>
+        <span class="c-lang">Deutsch</span>
+      </button>
+      <button class="country-btn" onclick="setCountry('gb')">
+        <span class="flag">🇬🇧</span>
+        <span class="c-name">UK</span>
+        <span class="c-lang">English</span>
+      </button>
+      <button class="country-btn" onclick="setCountry('ie')">
+        <span class="flag">🇮🇪</span>
+        <span class="c-name">Ireland</span>
+        <span class="c-lang">English</span>
+      </button>
+      <button class="country-btn" onclick="setCountry('se')">
+        <span class="flag">🇸🇪</span>
+        <span class="c-name">Sweden</span>
+        <span class="c-lang">Svenska</span>
+      </button>
+      <button class="country-btn" onclick="setCountry('ae')">
+        <span class="flag">🇦🇪</span>
+        <span class="c-name">UAE</span>
+        <span class="c-lang">العربية</span>
+      </button>
+      <button class="country-btn" onclick="setCountry('sa')">
+        <span class="flag">🇸🇦</span>
+        <span class="c-name">Saudi Arabia</span>
+        <span class="c-lang">العربية</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <span class="nav-logo-top">Est. Germany</span>
+    <span class="nav-logo-top" id="nav-top">Est. Germany</span>
     <span class="nav-logo-main">Original German Doner</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#menu">Menu</a></li>
-    <li><a href="#visit">Visit Us</a></li>
-    <li><a href="#visit" class="nav-cta">Find Us</a></li>
+    <li><a href="#menu" data-i18n="nav.menu">Menu</a></li>
+    <li><a href="#visit" data-i18n="nav.visit">Visit Us</a></li>
+    <li><a href="#visit" class="nav-cta" data-i18n="nav.cta">Find Us</a></li>
   </ul>
+  <div class="lang-switcher" onclick="document.getElementById('countryModal').classList.remove('hidden')">
+    <span class="ls-flag" id="ls-flag">🌍</span>
+    <span id="ls-label">Select Country</span>
+    <span class="ls-arrow">▼</span>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
-
   <div class="hero-circle">
-    <img
-      class="hero-img"
+    <img class="hero-img"
       src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=900&auto=format&fit=crop&q=80"
       alt="Shawarma"
-      onerror="this.src='https://source.unsplash.com/featured/900x900/?shawarma,kebab,doner'"
-    />
+      onerror="this.src='https://images.unsplash.com/photo-1530469525856-cf37954301f7?w=900&auto=format&fit=crop&q=80'" />
     <div class="glow-base"></div>
   </div>
-
   <div class="hero-content">
-    <div class="hero-eyebrow">The Original</div>
-    <h1>
-      Döner.<br>
-      <em>Done</em><br>
-      Properly.
-    </h1>
-    <p class="hero-desc">
-      Handcrafted with the finest meats, fresh-baked bread, and time-honoured German tradition. No shortcuts. No compromises.
-    </p>
+    <div class="hero-eyebrow" data-i18n="hero.eyebrow">The Original</div>
+    <h1 id="hero-title">Döner.<br><em>Done</em><br>Properly.</h1>
+    <p class="hero-desc" data-i18n="hero.desc">Handcrafted with the finest meats, fresh-baked bread, and time-honoured German tradition. No shortcuts. No compromises.</p>
     <div class="hero-actions">
-      <a href="#menu" class="btn btn-gold">See the Menu</a>
-      <a href="#visit" class="btn btn-outline">Find Us</a>
+      <a href="#menu" class="btn btn-gold" data-i18n="hero.btn1">See the Menu</a>
+      <a href="#visit" class="btn btn-outline" data-i18n="hero.btn2">Find Us</a>
     </div>
   </div>
-
   <div class="hero-badge">
     <div class="badge-line"></div>
-    <span class="badge-text">Authentic · Handmade · Fresh daily</span>
+    <span class="badge-text" data-i18n="hero.badge">Authentic · Handmade · Fresh daily</span>
   </div>
 </section>
 
 <!-- STRIP -->
 <div class="strip">
   <div class="strip-track">
-    <span class="strip-item">Authentic German Döner</span><span class="strip-dot">✦</span>
-    <span class="strip-item">Fresh-baked Bread</span><span class="strip-dot">✦</span>
-    <span class="strip-item">Premium Meats</span><span class="strip-dot">✦</span>
-    <span class="strip-item">House Sauces</span><span class="strip-dot">✦</span>
-    <span class="strip-item">Open Kitchen</span><span class="strip-dot">✦</span>
-    <span class="strip-item">Made to Order</span><span class="strip-dot">✦</span>
-    <span class="strip-item">Authentic German Döner</span><span class="strip-dot">✦</span>
-    <span class="strip-item">Fresh-baked Bread</span><span class="strip-dot">✦</span>
-    <span class="strip-item">Premium Meats</span><span class="strip-dot">✦</span>
-    <span class="strip-item">House Sauces</span><span class="strip-dot">✦</span>
-    <span class="strip-item">Open Kitchen</span><span class="strip-dot">✦</span>
-    <span class="strip-item">Made to Order</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s1">Authentic German Döner</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s2">Fresh-baked Bread</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s3">Premium Meats</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s4">House Sauces</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s5">Open Kitchen</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s6">Made to Order</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s1">Authentic German Döner</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s2">Fresh-baked Bread</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s3">Premium Meats</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s4">House Sauces</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s5">Open Kitchen</span><span class="strip-dot">✦</span>
+    <span class="strip-item" data-i18n="strip.s6">Made to Order</span><span class="strip-dot">✦</span>
   </div>
 </div>
 
 <!-- PROMISE -->
 <section class="promise">
   <div class="fu">
-    <div class="promise-label">Our Promise</div>
-    <h2>Why we're the <em>original.</em></h2>
-    <p>A great döner is more than a meal — it's a ritual. Ours begins before the doors open: marinating the meat, baking the bread, preparing the sauces from scratch.</p>
-    <p>Every bite carries the care that only comes from doing things the right way, every single day.</p>
+    <div class="promise-label" data-i18n="promise.label">Our Promise</div>
+    <h2 id="promise-title">Why we're the <em>original.</em></h2>
+    <p data-i18n="promise.p1">A great döner is more than a meal — it's a ritual. Ours begins before the doors open: marinating the meat, baking the bread, preparing the sauces from scratch.</p>
+    <p data-i18n="promise.p2">Every bite carries the care that only comes from doing things the right way, every single day.</p>
   </div>
   <div class="promise-pillars fu">
     <div class="pillar">
       <div class="pillar-icon">🔥</div>
       <div class="pillar-body">
-        <h4>Slow-roasted meats</h4>
-        <p>Our spits run from opening to closing. Only whole cuts — no fillers, no compressed blocks.</p>
+        <h4 data-i18n="pillar1.title">Slow-roasted meats</h4>
+        <p data-i18n="pillar1.desc">Our spits run from opening to closing. Only whole cuts — no fillers, no compressed blocks.</p>
       </div>
     </div>
     <div class="pillar">
       <div class="pillar-icon">🫓</div>
       <div class="pillar-body">
-        <h4>Bread baked in-house</h4>
-        <p>Fluffy, pillowy, slightly charred — our flatbread is made fresh every morning.</p>
+        <h4 data-i18n="pillar2.title">Bread baked in-house</h4>
+        <p data-i18n="pillar2.desc">Fluffy, pillowy, slightly charred — our flatbread is made fresh every morning.</p>
       </div>
     </div>
     <div class="pillar">
       <div class="pillar-icon">🥣</div>
       <div class="pillar-body">
-        <h4>Sauces made from scratch</h4>
-        <p>Garlic yoghurt, spicy red, herb verde — blended daily from real ingredients.</p>
+        <h4 data-i18n="pillar3.title">Sauces made from scratch</h4>
+        <p data-i18n="pillar3.desc">Garlic yoghurt, spicy red, herb verde — blended daily from real ingredients.</p>
       </div>
     </div>
     <div class="pillar">
       <div class="pillar-icon">🌿</div>
       <div class="pillar-body">
-        <h4>Always fresh produce</h4>
-        <p>Crisp salads and herbs sourced locally and replenished throughout the day.</p>
+        <h4 data-i18n="pillar4.title">Always fresh produce</h4>
+        <p data-i18n="pillar4.desc">Crisp salads and herbs sourced locally and replenished throughout the day.</p>
       </div>
     </div>
   </div>
@@ -867,37 +555,38 @@
   <div class="menu-inner">
     <div class="menu-header">
       <div class="fu">
-        <div class="promise-label" style="margin-bottom:0.8rem;">What We Serve</div>
-        <h2>The <em>Menu.</em></h2>
+        <div class="promise-label" style="margin-bottom:0.8rem;" data-i18n="menu.label">What We Serve</div>
+        <h2 id="menu-title">The <em>Menu.</em></h2>
       </div>
-      <a href="#" class="view-all">Full Menu →</a>
+      <a href="#" class="view-all" data-i18n="menu.viewall">Full Menu →</a>
     </div>
     <div class="menu-grid">
       <div class="menu-card fu">
         <div class="card-emoji">🥙</div>
-        <span class="card-tag">Signature</span>
-        <div class="card-title">Classic Döner</div>
-        <div class="card-desc">Beef & lamb on the spit, garlic yoghurt, fresh herbs, tomato, slaw — wrapped in our warm flatbread.</div>
+        <span class="card-tag" data-i18n="menu.tag1">Signature</span>
+        <div class="card-title" data-i18n="menu.item1.title">Classic Döner</div>
+        <div class="card-desc" data-i18n="menu.item1.desc">Beef & lamb on the spit, garlic yoghurt, fresh herbs, tomato, slaw — wrapped in our warm flatbread.</div>
         <div class="card-price">€6.50</div>
       </div>
       <div class="menu-card fu">
         <div class="card-emoji">🍗</div>
-        <span class="card-tag">Fan Favourite</span>
-        <div class="card-title">Chicken Döner</div>
-        <div class="card-desc">Juicy marinated chicken thighs, slow-roasted and sliced fresh to order. Light, flavourful, satisfying.</div>
+        <span class="card-tag" data-i18n="menu.tag2">Fan Favourite</span>
+        <div class="card-title" data-i18n="menu.item2.title">Chicken Döner</div>
+        <div class="card-desc" data-i18n="menu.item2.desc">Juicy marinated chicken thighs, slow-roasted and sliced fresh to order. Light, flavourful, satisfying.</div>
         <div class="card-price">€6.00</div>
       </div>
       <div class="menu-card fu">
         <div class="card-emoji">🌯</div>
-        <span class="card-tag">New</span>
-        <div class="card-title">Döner Dürüm</div>
-        <div class="card-desc">Everything you love, rolled tight in a lavash wrap. Crispy on the outside, packed on the inside.</div>
+        <span class="card-tag" data-i18n="menu.tag3">New</span>
+        <div class="card-title" data-i18n="menu.item3.title">Döner Dürüm</div>
+        <div class="card-desc" data-i18n="menu.item3.desc">Everything you love, rolled tight in a lavash wrap. Crispy on the outside, packed on the inside.</div>
         <div class="card-price">€6.50</div>
       </div>
       <div class="menu-card fu">
         <div class="card-emoji">🥗</div>
-        <div class="card-title">Döner Teller</div>
-        <div class="card-desc">A generous plate — grilled meats, rice or fries, salad, and your choice of two sauces.</div>
+        <span class="card-tag" data-i18n="menu.tag4">Plate</span>
+        <div class="card-title" data-i18n="menu.item4.title">Döner Teller</div>
+        <div class="card-desc" data-i18n="menu.item4.desc">A generous plate — grilled meats, rice or fries, salad, and your choice of two sauces.</div>
         <div class="card-price">€9.50</div>
       </div>
     </div>
@@ -907,16 +596,16 @@
 <!-- VISIT -->
 <section class="visit" id="visit">
   <div class="visit-cta fu">
-    <div class="promise-label">Come In</div>
-    <h2>Find your <em>nearest</em> table.</h2>
-    <p>We're easy to find, impossible to forget. Come hungry, leave satisfied.</p>
-    <a href="#" class="btn btn-gold" style="align-self:flex-start;">Get Directions</a>
+    <div class="promise-label" data-i18n="visit.label">Come In</div>
+    <h2 id="visit-title">Find your <em>nearest</em> table.</h2>
+    <p data-i18n="visit.desc">We're easy to find, impossible to forget. Come hungry, leave satisfied.</p>
+    <a href="#" class="btn btn-gold" style="align-self:flex-start;" data-i18n="visit.btn">Get Directions</a>
   </div>
   <div class="info-block fu">
     <div class="info-row">
       <div class="info-icon">📍</div>
       <div>
-        <div class="info-label">Address</div>
+        <div class="info-label" data-i18n="info.addr.label">Address</div>
         <div class="info-val">Musterstraße 12</div>
         <div class="info-sub">10115 Berlin, Germany</div>
       </div>
@@ -924,19 +613,19 @@
     <div class="info-row">
       <div class="info-icon">📞</div>
       <div>
-        <div class="info-label">Phone</div>
+        <div class="info-label" data-i18n="info.phone.label">Phone</div>
         <div class="info-val">+49 30 1234 5678</div>
-        <div class="info-sub">We also take orders by phone</div>
+        <div class="info-sub" data-i18n="info.phone.sub">We also take orders by phone</div>
       </div>
     </div>
     <div class="info-row">
       <div class="info-icon">🕐</div>
       <div>
-        <div class="info-label">Opening Hours</div>
+        <div class="info-label" data-i18n="info.hours.label">Opening Hours</div>
         <div class="hours-grid">
-          <div class="hours-row"><span>Mon – Fri</span><span>11:00 – 22:00</span></div>
-          <div class="hours-row"><span>Saturday</span><span>11:00 – 23:00</span></div>
-          <div class="hours-row"><span>Sunday</span><span>12:00 – 21:00</span></div>
+          <div class="hours-row"><span data-i18n="hours.mf">Mon – Fri</span><span>11:00 – 22:00</span></div>
+          <div class="hours-row"><span data-i18n="hours.sat">Saturday</span><span>11:00 – 23:00</span></div>
+          <div class="hours-row"><span data-i18n="hours.sun">Sunday</span><span>12:00 – 21:00</span></div>
         </div>
       </div>
     </div>
@@ -946,9 +635,9 @@
 <!-- CTA -->
 <section class="cta">
   <div class="cta-inner fu">
-    <h2>Come taste the<br><em>original.</em></h2>
-    <p>No gimmicks. No chain. Just an honest döner made with real craft.</p>
-    <a href="#visit" class="btn btn-gold">Visit Us Today</a>
+    <h2 id="cta-title">Come taste the<br><em>original.</em></h2>
+    <p data-i18n="cta.sub">No gimmicks. No chain. Just an honest döner made with real craft.</p>
+    <a href="#visit" class="btn btn-gold" data-i18n="cta.btn">Visit Us Today</a>
   </div>
 </section>
 
@@ -956,20 +645,183 @@
 <footer>
   <div class="footer-inner">
     <a href="#" class="footer-brand">
-      <span class="footer-brand-top">Germany</span>
+      <span class="footer-brand-top" id="footer-country">Germany</span>
       <span class="footer-brand-main">Original German Doner</span>
     </a>
     <ul class="footer-links">
-      <li><a href="#menu">Menu</a></li>
-      <li><a href="#visit">Directions</a></li>
-      <li><a href="#">Allergens</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="#menu" data-i18n="nav.menu">Menu</a></li>
+      <li><a href="#visit" data-i18n="footer.dir">Directions</a></li>
+      <li><a href="#" data-i18n="footer.allerg">Allergens</a></li>
+      <li><a href="#" data-i18n="footer.contact">Contact</a></li>
     </ul>
     <span class="footer-copy">© Original German Doner 2026</span>
   </div>
 </footer>
 
 <script>
+const T = {
+  en: {
+    flag:'🇬🇧', label:'English', country:'United Kingdom', dir:'ltr',
+    'nav.menu':'Menu','nav.visit':'Visit Us','nav.cta':'Find Us',
+    'hero.eyebrow':'The Original','hero.title':'Döner.<br><em>Done</em><br>Properly.',
+    'hero.desc':'Handcrafted with the finest meats, fresh-baked bread, and time-honoured German tradition. No shortcuts. No compromises.',
+    'hero.btn1':'See the Menu','hero.btn2':'Find Us','hero.badge':'Authentic · Handmade · Fresh daily',
+    'strip.s1':'Authentic German Döner','strip.s2':'Fresh-baked Bread','strip.s3':'Premium Meats','strip.s4':'House Sauces','strip.s5':'Open Kitchen','strip.s6':'Made to Order',
+    'promise.label':'Our Promise','promise.title':'Why we\'re the <em>original.</em>',
+    'promise.p1':'A great döner is more than a meal — it\'s a ritual. Ours begins before the doors open: marinating the meat, baking the bread, preparing the sauces from scratch.',
+    'promise.p2':'Every bite carries the care that only comes from doing things the right way, every single day.',
+    'pillar1.title':'Slow-roasted meats','pillar1.desc':'Our spits run from opening to closing. Only whole cuts — no fillers, no compressed blocks.',
+    'pillar2.title':'Bread baked in-house','pillar2.desc':'Fluffy, pillowy, slightly charred — our flatbread is made fresh every morning.',
+    'pillar3.title':'Sauces made from scratch','pillar3.desc':'Garlic yoghurt, spicy red, herb verde — blended daily from real ingredients.',
+    'pillar4.title':'Always fresh produce','pillar4.desc':'Crisp salads and herbs sourced locally and replenished throughout the day.',
+    'menu.label':'What We Serve','menu.title':'The <em>Menu.</em>','menu.viewall':'Full Menu →',
+    'menu.tag1':'Signature','menu.tag2':'Fan Favourite','menu.tag3':'New','menu.tag4':'Plate',
+    'menu.item1.title':'Classic Döner','menu.item1.desc':'Beef & lamb on the spit, garlic yoghurt, fresh herbs, tomato, slaw — wrapped in our warm flatbread.',
+    'menu.item2.title':'Chicken Döner','menu.item2.desc':'Juicy marinated chicken thighs, slow-roasted and sliced fresh to order. Light, flavourful, satisfying.',
+    'menu.item3.title':'Döner Dürüm','menu.item3.desc':'Everything you love, rolled tight in a lavash wrap. Crispy on the outside, packed on the inside.',
+    'menu.item4.title':'Döner Plate','menu.item4.desc':'A generous plate — grilled meats, rice or fries, salad, and your choice of two sauces.',
+    'visit.label':'Come In','visit.title':'Find your <em>nearest</em> table.',
+    'visit.desc':'We\'re easy to find, impossible to forget. Come hungry, leave satisfied.','visit.btn':'Get Directions',
+    'info.addr.label':'Address','info.phone.label':'Phone','info.phone.sub':'We also take orders by phone','info.hours.label':'Opening Hours',
+    'hours.mf':'Mon – Fri','hours.sat':'Saturday','hours.sun':'Sunday',
+    'cta.title':'Come taste the<br><em>original.</em>','cta.sub':'No gimmicks. No chain. Just an honest döner made with real craft.','cta.btn':'Visit Us Today',
+    'footer.dir':'Directions','footer.allerg':'Allergens','footer.contact':'Contact',
+  },
+  de: {
+    flag:'🇩🇪', label:'Deutsch', country:'Deutschland', dir:'ltr',
+    'nav.menu':'Speisekarte','nav.visit':'Besucht uns','nav.cta':'Uns finden',
+    'hero.eyebrow':'Das Original','hero.title':'Döner.<br><em>Echt.</em><br>Unvergleichlich.',
+    'hero.desc':'Handgemacht mit bestem Fleisch, frisch gebackenem Brot und bewährter deutscher Tradition. Keine Abkürzungen. Keine Kompromisse.',
+    'hero.btn1':'Zur Speisekarte','hero.btn2':'Uns finden','hero.badge':'Authentisch · Handgemacht · Täglich frisch',
+    'strip.s1':'Echter Deutscher Döner','strip.s2':'Frisch gebackenes Brot','strip.s3':'Premium-Fleisch','strip.s4':'Hausgemachte Soßen','strip.s5':'Offene Küche','strip.s6':'Frisch zubereitet',
+    'promise.label':'Unser Versprechen','promise.title':'Warum wir das <em>Original</em> sind.',
+    'promise.p1':'Ein großartiger Döner ist mehr als eine Mahlzeit — er ist ein Ritual. Unseres beginnt, bevor die Türen öffnen: Fleisch marinieren, Brot backen, Soßen von Grund auf zubereiten.',
+    'promise.p2':'Jeder Biss trägt die Sorgfalt, die nur entsteht, wenn man die Dinge jeden Tag richtig macht.',
+    'pillar1.title':'Langsam gebratenes Fleisch','pillar1.desc':'Unsere Spieße laufen von der Öffnung bis zur Schließung. Nur ganze Stücke — keine Füllstoffe.',
+    'pillar2.title':'Brot aus eigener Küche','pillar2.desc':'Fluffig, weich, leicht angeröstet — unser Fladenbrot wird jeden Morgen frisch gebacken.',
+    'pillar3.title':'Soßen von Grund auf','pillar3.desc':'Knoblauch-Joghurt, Scharf-Rot, Kräuter-Verde — täglich aus echten Zutaten gemischt.',
+    'pillar4.title':'Immer frische Zutaten','pillar4.desc':'Knackige Salate und Kräuter, täglich frisch beschafft und nachgefüllt.',
+    'menu.label':'Unser Angebot','menu.title':'Die <em>Speisekarte.</em>','menu.viewall':'Vollständige Karte →',
+    'menu.tag1':'Klassiker','menu.tag2':'Beliebtester','menu.tag3':'Neu','menu.tag4':'Teller',
+    'menu.item1.title':'Klassischer Döner','menu.item1.desc':'Rind & Lamm vom Spieß, Knoblauch-Joghurt, frische Kräuter, Tomate, Krautsalat — im warmen Fladenbrot.',
+    'menu.item2.title':'Hähnchen-Döner','menu.item2.desc':'Saftige marinierte Hähnchenschenkel, langsam gebraten und frisch aufgeschnitten.',
+    'menu.item3.title':'Döner Dürüm','menu.item3.desc':'Alles was du liebst, fest in ein Lavaschwrap gerollt. Außen knusprig, innen vollgepackt.',
+    'menu.item4.title':'Döner Teller','menu.item4.desc':'Ein großzügiger Teller — gegrilltes Fleisch, Reis oder Pommes, Salat und zwei Soßen nach Wahl.',
+    'visit.label':'Komm vorbei','visit.title':'Finde deinen <em>nächsten</em> Tisch.',
+    'visit.desc':'Leicht zu finden, unmöglich zu vergessen. Komm hungrig, geh satt.','visit.btn':'Route berechnen',
+    'info.addr.label':'Adresse','info.phone.label':'Telefon','info.phone.sub':'Wir nehmen auch telefonische Bestellungen an','info.hours.label':'Öffnungszeiten',
+    'hours.mf':'Mo – Fr','hours.sat':'Samstag','hours.sun':'Sonntag',
+    'cta.title':'Schmeck das<br><em>Original.</em>','cta.sub':'Kein Schnickschnack. Keine Kette. Nur ein ehrlicher Döner mit echtem Handwerk.','cta.btn':'Heute besuchen',
+    'footer.dir':'Route','footer.allerg':'Allergene','footer.contact':'Kontakt',
+  },
+  se: {
+    flag:'🇸🇪', label:'Svenska', country:'Sverige', dir:'ltr',
+    'nav.menu':'Meny','nav.visit':'Besök oss','nav.cta':'Hitta oss',
+    'hero.eyebrow':'Det Originalet','hero.title':'Döner.<br><em>Gjord</em><br>Ordentligt.',
+    'hero.desc':'Handgjord med det finaste köttet, nybakat bröd och hedervärd tysk tradition. Inga genvägar. Inga kompromisser.',
+    'hero.btn1':'Se menyn','hero.btn2':'Hitta oss','hero.badge':'Autentisk · Handgjord · Färsk dagligen',
+    'strip.s1':'Äkta Tysk Döner','strip.s2':'Nybakat Bröd','strip.s3':'Premiumkött','strip.s4':'Husets Såser','strip.s5':'Öppet Kök','strip.s6':'Tillagad på beställning',
+    'promise.label':'Vårt Löfte','promise.title':'Varför vi är <em>originalet.</em>',
+    'promise.p1':'En bra döner är mer än en måltid — det är ett ritual. Vårt börjar innan dörrarna öppnar: marinera köttet, baka brödet, förbereda såserna från grunden.',
+    'promise.p2':'Varje tugga bär omsorg som bara uppstår när man gör saker på rätt sätt, varje enskild dag.',
+    'pillar1.title':'Långsamt rostat kött','pillar1.desc':'Våra spett går från öppning till stängning. Bara hela styckningsdelar — inga fyllmedel.',
+    'pillar2.title':'Bröd bakat i huset','pillar2.desc':'Fluffigt, mjukt, lätt brynt — vårt tunnbröd bakas färskt varje morgon.',
+    'pillar3.title':'Såser från grunden','pillar3.desc':'Vitlöksyoghurt, stark röd, örtverde — blandas dagligen från riktiga ingredienser.',
+    'pillar4.title':'Alltid färska råvaror','pillar4.desc':'Frasiga sallader och örter som köps in lokalt och fylls på hela dagen.',
+    'menu.label':'Vad vi serverar','menu.title':'Vår <em>Meny.</em>','menu.viewall':'Hela menyn →',
+    'menu.tag1':'Signatur','menu.tag2':'Favorit','menu.tag3':'Ny','menu.tag4':'Tallrik',
+    'menu.item1.title':'Klassisk Döner','menu.item1.desc':'Nöt & lamm på spettet, vitlöksyoghurt, färska örter, tomat, coleslaw — insvept i vårt varma tunnbröd.',
+    'menu.item2.title':'Kyckling Döner','menu.item2.desc':'Saftiga marinerade kycklinglår, långsamt rostade och skurna färska på beställning.',
+    'menu.item3.title':'Döner Dürüm','menu.item3.desc':'Allt du älskar, tätt inrullat i ett lavashwrap. Krispigt utanpå, packad inuti.',
+    'menu.item4.title':'Dönertallrik','menu.item4.desc':'En generös tallrik — grillat kött, ris eller pommes, sallad och två såser efter eget val.',
+    'visit.label':'Kom in','visit.title':'Hitta ditt <em>närmaste</em> bord.',
+    'visit.desc':'Lätt att hitta, omöjlig att glömma. Kom hungrig, lämna nöjd.','visit.btn':'Få vägbeskrivning',
+    'info.addr.label':'Adress','info.phone.label':'Telefon','info.phone.sub':'Vi tar även beställningar per telefon','info.hours.label':'Öppettider',
+    'hours.mf':'Mån – Fre','hours.sat':'Lördag','hours.sun':'Söndag',
+    'cta.title':'Smaka på<br><em>originalet.</em>','cta.sub':'Inga gimmickar. Ingen kedja. Bara en ärlig döner gjord med riktigt hantverk.','cta.btn':'Besök oss idag',
+    'footer.dir':'Vägbeskrivning','footer.allerg':'Allergener','footer.contact':'Kontakt',
+  },
+  ar: {
+    flag:'🌍', label:'العربية', country:'', dir:'rtl',
+    'nav.menu':'القائمة','nav.visit':'زورونا','nav.cta':'ابحث عنا',
+    'hero.eyebrow':'الأصلي','hero.title':'دونر.<br><em>حقيقي.</em><br>لا مثيل له.',
+    'hero.desc':'مصنوع يدوياً بأجود اللحوم وخبز طازج وتقاليد ألمانية عريقة. بلا اختصارات، بلا تنازلات.',
+    'hero.btn1':'شاهد القائمة','hero.btn2':'ابحث عنا','hero.badge':'أصيل · يدوي الصنع · طازج يومياً',
+    'strip.s1':'دونر ألماني أصيل','strip.s2':'خبز طازج','strip.s3':'لحوم فاخرة','strip.s4':'صلصات منزلية','strip.s5':'مطبخ مفتوح','strip.s6':'يُحضَّر بالطلب',
+    'promise.label':'وعدنا لكم','promise.title':'لماذا نحن <em>الأصليون.</em>',
+    'promise.p1':'الدونر الرائع أكثر من مجرد وجبة — إنه طقس. يبدأ قبل فتح الأبواب: تتبيل اللحم، خبز الخبز، وتحضير الصلصات من الصفر.',
+    'promise.p2':'كل قضمة تحمل العناية التي تنشأ فقط من القيام بالأمور بالطريقة الصحيحة، كل يوم.',
+    'pillar1.title':'لحوم مشوية ببطء','pillar1.desc':'أسياخنا تعمل من الافتتاح حتى الإغلاق. قطع كاملة فقط — بلا حشوات.',
+    'pillar2.title':'خبز مخبوز داخل المطعم','pillar2.desc':'رقيق وهش ومحمص قليلاً — خبزنا يُخبز طازجاً كل صباح.',
+    'pillar3.title':'صلصات محضّرة من الصفر','pillar3.desc':'ثوم لبن، أحمر حار، خضروات — تُمزج يومياً من مكونات طبيعية.',
+    'pillar4.title':'منتجات طازجة دائماً','pillar4.desc':'سلطات وأعشاب طازجة مصدرها محلي ومتجددة على مدار اليوم.',
+    'menu.label':'ما نقدمه','menu.title':'القائمة <em>كاملةً.</em>','menu.viewall':'القائمة الكاملة ←',
+    'menu.tag1':'مميز','menu.tag2':'الأكثر طلباً','menu.tag3':'جديد','menu.tag4':'طبق',
+    'menu.item1.title':'دونر كلاسيك','menu.item1.desc':'لحم بقر وخروف على السيخ، لبن ثوم، أعشاب طازجة، طماطم، كول سلو — ملفوف في خبزنا الدافئ.',
+    'menu.item2.title':'دونر دجاج','menu.item2.desc':'أفخاذ دجاج متبلة وعصيرية، مشوية ببطء ومقطعة طازجة حسب الطلب.',
+    'menu.item3.title':'دونر دُروم','menu.item3.desc':'كل ما تحب، ملفوف بإحكام في خبز لافاش. مقرمش من الخارج، محشو من الداخل.',
+    'menu.item4.title':'طبق الدونر','menu.item4.desc':'طبق سخي — لحم مشوي، أرز أو بطاطس، سلطة، وصلصتان من اختيارك.',
+    'visit.label':'تفضل بزيارتنا','visit.title':'اعثر على <em>أقرب</em> طاولة.',
+    'visit.desc':'سهل الإيجاد، مستحيل النسيان. تعال جائعاً وارحل راضياً.','visit.btn':'احصل على الاتجاهات',
+    'info.addr.label':'العنوان','info.phone.label':'الهاتف','info.phone.sub':'نقبل أيضاً الطلبات عبر الهاتف','info.hours.label':'ساعات العمل',
+    'hours.mf':'الاثنين – الجمعة','hours.sat':'السبت','hours.sun':'الأحد',
+    'cta.title':'تذوّق<br><em>الأصلي.</em>','cta.sub':'بلا مبالغة. بلا سلسلة. فقط دونر صادق مصنوع بحرفية حقيقية.','cta.btn':'زورونا اليوم',
+    'footer.dir':'الاتجاهات','footer.allerg':'مسببات الحساسية','footer.contact':'اتصل بنا',
+  }
+};
+
+const countryMap = {
+  gb:{lang:'en',country:'United Kingdom',flag:'🇬🇧'},
+  ie:{lang:'en',country:'Ireland',flag:'🇮🇪'},
+  de:{lang:'de',country:'Deutschland',flag:'🇩🇪'},
+  se:{lang:'se',country:'Sverige',flag:'🇸🇪'},
+  ae:{lang:'ar',country:'الإمارات',flag:'🇦🇪'},
+  sa:{lang:'ar',country:'المملكة العربية السعودية',flag:'🇸🇦'},
+};
+
+const richIds = {
+  'hero-title':'hero.title','promise-title':'promise.title',
+  'menu-title':'menu.title','visit-title':'visit.title','cta-title':'cta.title'
+};
+
+function setCountry(code) {
+  const c = countryMap[code];
+  const t = T[c.lang];
+  const isRtl = t.dir === 'rtl';
+
+  document.getElementById('countryModal').classList.add('hidden');
+  document.documentElement.setAttribute('dir', t.dir);
+  document.documentElement.setAttribute('lang', c.lang);
+  document.body.classList.toggle('rtl', isRtl);
+
+  document.getElementById('ls-flag').textContent = c.flag;
+  document.getElementById('ls-label').textContent = t.label;
+  document.getElementById('footer-country').textContent = c.country;
+  document.getElementById('nav-top').textContent = c.country;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = t[el.getAttribute('data-i18n')];
+    if (v !== undefined) el.textContent = v;
+  });
+
+  Object.entries(richIds).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el && t[key]) { el.innerHTML = t[key]; }
+  });
+
+  document.querySelectorAll('[data-i18n],[id]').forEach(el => {
+    el.classList.remove('lang-fade');
+    void el.offsetWidth;
+    el.classList.add('lang-fade');
+  });
+
+  localStorage.setItem('ogd-country', code);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('ogd-country');
+  if (saved && countryMap[saved]) setCountry(saved);
+
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -980,6 +832,7 @@
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+});
 </script>
 </body>
 </html>
