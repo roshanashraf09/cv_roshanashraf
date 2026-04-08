@@ -3,39 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDK – German Doner Kebab</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<title>Original German Doner</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --fire: #FF4800;
-    --ember: #FF8C00;
-    --black: #0A0806;
-    --charcoal: #1A1410;
-    --ash: #2E2620;
-    --cream: #F5EDD8;
-    --muted: #9A8E7E;
+    --gold: #C8922A;
+    --gold-light: #E8B455;
+    --red: #C0392B;
+    --black: #0D0C0B;
+    --dark: #181512;
+    --panel: #201C18;
+    --border: rgba(200,146,42,0.18);
+    --cream: #F2E8D5;
+    --muted: #8A7A65;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
     background: var(--black);
     color: var(--cream);
-    font-family: 'Barlow', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     overflow-x: hidden;
   }
 
-  /* ── NOISE OVERLAY ── */
-  body::before {
+  /* GRAIN */
+  body::after {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
     pointer-events: none;
-    z-index: 999;
-    opacity: 0.35;
+    z-index: 9999;
+    opacity: 0.4;
   }
 
   /* ── NAV ── */
@@ -46,32 +47,46 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.5rem 4rem;
-    mix-blend-mode: normal;
+    padding: 1.8rem 5rem;
   }
 
   nav::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(10,8,6,0.95) 0%, transparent 100%);
+    background: linear-gradient(to bottom, rgba(13,12,11,0.97) 0%, transparent 100%);
     pointer-events: none;
   }
 
   .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 0.15em;
-    color: var(--fire);
-    text-decoration: none;
     position: relative;
     z-index: 1;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
   }
 
-  .nav-logo span { color: var(--cream); }
+  .nav-logo-top {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .nav-logo-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+  }
 
   .nav-links {
     display: flex;
+    align-items: center;
     gap: 2.5rem;
     list-style: none;
     position: relative;
@@ -79,10 +94,9 @@
   }
 
   .nav-links a {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
     text-decoration: none;
@@ -92,759 +106,672 @@
   .nav-links a:hover { color: var(--cream); }
 
   .nav-cta {
-    background: var(--fire);
+    background: var(--gold) !important;
     color: var(--black) !important;
-    padding: 0.55rem 1.4rem !important;
-    font-weight: 700 !important;
-    transition: background 0.2s, transform 0.15s !important;
+    padding: 0.55rem 1.4rem;
+    font-weight: 500 !important;
+    letter-spacing: 0.12em;
+    transition: background 0.2s !important;
   }
 
-  .nav-cta:hover { background: var(--ember) !important; transform: scale(1.04); }
+  .nav-cta:hover { background: var(--gold-light) !important; }
 
   /* ── HERO ── */
   .hero {
     min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    align-items: center;
     position: relative;
     overflow: hidden;
+    padding: 0 5rem;
   }
 
-  .hero-left {
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 70% at 75% 55%, rgba(200,146,42,0.13) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(192,57,43,0.08) 0%, transparent 60%),
+      var(--black);
+  }
+
+  /* decorative circle */
+  .hero-circle {
+    position: absolute;
+    right: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(520px, 48vw);
+    height: min(520px, 48vw);
+    border-radius: 50%;
+    border: 1px solid var(--border);
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding: 10rem 4rem 6rem 4rem;
+  }
+
+  .hero-circle::before {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,146,42,0.08);
+  }
+
+  .hero-circle::after {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(200,146,42,0.1) 0%, transparent 70%);
+  }
+
+  /* skewer inside circle */
+  .spit {
+    position: relative;
+    width: 160px;
+    height: 380px;
+    z-index: 1;
+  }
+
+  .spit-rod {
+    position: absolute;
+    left: 50%;
+    top: 3%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 94%;
+    background: linear-gradient(to bottom, #9A7020, #D4A040, #9A7020);
+    border-radius: 3px;
+    box-shadow: 0 0 40px rgba(200,146,42,0.25);
+  }
+
+  .layer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 4px;
+  }
+
+  .l1 { width:130px; height:40px; top:8%;  background: linear-gradient(135deg,#6B2510,#A83820,#6B2510); }
+  .l2 { width:148px; height:38px; top:19%; background: linear-gradient(135deg,#5E2008,#963010,#5E2008); }
+  .l3 { width:140px; height:40px; top:30%; background: linear-gradient(135deg,#6B2510,#A83820,#6B2510); }
+  .l4 { width:155px; height:38px; top:41%; background: linear-gradient(135deg,#5E2008,#963010,#5E2008); }
+  .l5 { width:145px; height:40px; top:52%; background: linear-gradient(135deg,#6B2510,#A83820,#6B2510); }
+  .l6 { width:135px; height:36px; top:62%; background: linear-gradient(135deg,#5E2008,#963010,#5E2008); }
+  .l7 { width:125px; height:36px; top:72%; background: linear-gradient(135deg,#6B2510,#A83820,#6B2510); }
+
+  .layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent 40%, rgba(0,0,0,0.35));
+  }
+
+  .glow-base {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(200,146,42,0.45) 0%, rgba(192,57,43,0.15) 40%, transparent 70%);
+    filter: blur(18px);
+    animation: pulse 2.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { opacity: 0.5; transform: translateX(-50%) scale(0.95); }
+    to   { opacity: 1;   transform: translateX(-50%) scale(1.05); }
+  }
+
+  .hero-content {
     position: relative;
     z-index: 2;
+    max-width: 580px;
   }
 
-  .hero-tag {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--fire);
-    margin-bottom: 1.5rem;
+  .hero-eyebrow {
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
   }
 
-  .hero-tag::before {
+  .hero-eyebrow::before {
     content: '';
-    width: 2rem;
+    width: 2.5rem;
     height: 1px;
-    background: var(--fire);
-    display: inline-block;
+    background: var(--gold);
   }
 
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(5rem, 10vw, 9rem);
-    line-height: 0.9;
-    letter-spacing: 0.02em;
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.8rem, 7vw, 6.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.01em;
     margin-bottom: 2rem;
   }
 
-  .hero-title .accent { color: var(--fire); display: block; }
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
 
-  .hero-sub {
-    font-size: 1.05rem;
+  .hero-desc {
+    font-size: 1rem;
     font-weight: 300;
-    line-height: 1.7;
+    line-height: 1.8;
     color: var(--muted);
-    max-width: 380px;
+    max-width: 400px;
     margin-bottom: 3rem;
   }
 
-  .hero-buttons {
+  .hero-actions {
     display: flex;
     gap: 1rem;
+    align-items: center;
     flex-wrap: wrap;
   }
 
-  .btn-primary {
-    background: var(--fire);
-    color: var(--black);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    padding: 1rem 2.2rem;
     text-decoration: none;
-    transition: background 0.2s, transform 0.15s;
     display: inline-block;
+    padding: 0.95rem 2rem;
+    transition: all 0.2s;
   }
 
-  .btn-primary:hover { background: var(--ember); transform: translateY(-2px); }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--black);
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
 
-  .btn-secondary {
+  .btn-outline {
     background: transparent;
     color: var(--cream);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 1rem 2.2rem;
-    text-decoration: none;
-    border: 1px solid rgba(245,237,216,0.25);
-    transition: border-color 0.2s, color 0.2s;
-    display: inline-block;
+    border: 1px solid rgba(242,232,213,0.2);
   }
+  .btn-outline:hover { border-color: rgba(242,232,213,0.6); }
 
-  .btn-secondary:hover { border-color: var(--cream); }
-
-  .hero-right {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-image-bg {
+  .hero-badge {
     position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 60% 50%, rgba(255,72,0,0.18) 0%, transparent 70%),
-      linear-gradient(135deg, var(--charcoal) 0%, var(--black) 100%);
-  }
-
-  /* Kebab skewer illustration (CSS art) */
-  .kebab-art {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 220px;
-    height: 500px;
-  }
-
-  .skewer {
-    position: absolute;
-    left: 50%;
-    top: 5%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 88%;
-    background: linear-gradient(to bottom, #8B6914, #C8972A, #8B6914);
-    border-radius: 3px;
-    box-shadow: 0 0 30px rgba(255,140,0,0.3);
-  }
-
-  .meat-layer {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 6px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  }
-
-  .m1 { width: 180px; height: 48px; top: 10%;  background: linear-gradient(135deg, #8B3A0F, #C45820, #8B3A0F); }
-  .m2 { width: 200px; height: 44px; top: 22%;  background: linear-gradient(135deg, #7A2E08, #B84A18, #7A2E08); }
-  .m3 { width: 190px; height: 46px; top: 33%;  background: linear-gradient(135deg, #8B3A0F, #C45820, #8B3A0F); }
-  .m4 { width: 210px; height: 44px; top: 44%;  background: linear-gradient(135deg, #7A2E08, #B84A18, #7A2E08); }
-  .m5 { width: 195px; height: 46px; top: 55%;  background: linear-gradient(135deg, #8B3A0F, #C45820, #8B3A0F); }
-  .m6 { width: 185px; height: 42px; top: 65%;  background: linear-gradient(135deg, #7A2E08, #B84A18, #7A2E08); }
-  .m7 { width: 170px; height: 40px; top: 75%;  background: linear-gradient(135deg, #8B3A0F, #C45820, #8B3A0F); }
-
-  .meat-layer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 6px;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.06), transparent 40%, rgba(0,0,0,0.3));
-  }
-
-  .flame-glow {
-    position: absolute;
-    bottom: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300px;
-    height: 200px;
-    background: radial-gradient(ellipse, rgba(255,72,0,0.5) 0%, rgba(255,140,0,0.2) 40%, transparent 70%);
-    filter: blur(20px);
-    animation: flicker 2s ease-in-out infinite alternate;
-  }
-
-  @keyframes flicker {
-    from { opacity: 0.6; transform: translateX(-50%) scale(1); }
-    to   { opacity: 1;   transform: translateX(-50%) scale(1.08); }
-  }
-
-  .hero-scroll {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 4rem;
+    bottom: 3rem;
+    left: 5rem;
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--muted);
+    gap: 1.2rem;
     z-index: 2;
   }
 
-  .scroll-line {
+  .badge-line {
     width: 0;
     height: 1px;
-    background: var(--fire);
-    animation: growLine 1.5s ease forwards 1s;
+    background: var(--gold);
+    animation: growLine 1.2s ease forwards 0.8s;
   }
 
-  @keyframes growLine { to { width: 3rem; } }
+  @keyframes growLine { to { width: 2.5rem; } }
 
-  /* ── MARQUEE ── */
-  .marquee-wrap {
-    background: var(--fire);
+  .badge-text {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(138,122,101,0.7);
+  }
+
+  /* ── STRIP ── */
+  .strip {
+    background: var(--gold);
+    padding: 1rem 0;
     overflow: hidden;
-    padding: 0.85rem 0;
     white-space: nowrap;
   }
 
-  .marquee-track {
+  .strip-track {
     display: inline-flex;
-    animation: scroll 20s linear infinite;
+    animation: ticker 22s linear infinite;
   }
 
-  .marquee-item {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.12em;
+  .strip-item {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-style: italic;
     color: var(--black);
-    padding: 0 2.5rem;
+    padding: 0 2rem;
+    opacity: 0.85;
   }
 
-  .marquee-dot {
-    color: rgba(10,8,6,0.4);
-  }
+  .strip-dot { opacity: 0.4; padding: 0 0.5rem; }
 
-  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  /* ── STATS ── */
-  .stats {
-    background: var(--charcoal);
+  /* ── PROMISE ── */
+  .promise {
+    padding: 8rem 5rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid rgba(245,237,216,0.06);
-    border-bottom: 1px solid rgba(245,237,216,0.06);
-  }
-
-  .stat-item {
-    padding: 3.5rem 2rem;
-    text-align: center;
-    border-right: 1px solid rgba(245,237,216,0.06);
-    transition: background 0.3s;
-  }
-
-  .stat-item:last-child { border-right: none; }
-  .stat-item:hover { background: var(--ash); }
-
-  .stat-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 3.8rem;
-    color: var(--fire);
-    line-height: 1;
-    display: block;
-  }
-
-  .stat-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 0.4rem;
-    display: block;
-  }
-
-  /* ── MENU SECTION ── */
-  .section {
-    padding: 7rem 4rem;
-    max-width: 1400px;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1300px;
     margin: 0 auto;
   }
 
-  .section-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 4rem;
-  }
-
-  .section-eyebrow {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
+  .promise-label {
+    font-size: 0.7rem;
+    font-weight: 500;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--fire);
-    margin-bottom: 0.8rem;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
     display: flex;
     align-items: center;
     gap: 0.8rem;
   }
 
-  .section-eyebrow::before {
-    content: '';
-    width: 1.5rem;
-    height: 1px;
-    background: var(--fire);
-    display: inline-block;
+  .promise-label::before { content: ''; width: 1.5rem; height: 1px; background: var(--gold); }
+
+  .promise h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.08;
+    margin-bottom: 1.8rem;
   }
 
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    line-height: 0.95;
-    letter-spacing: 0.02em;
-  }
+  .promise h2 em { font-style: italic; color: var(--gold); }
 
-  .section-link {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--fire);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding-bottom: 0.3rem;
-    border-bottom: 1px solid rgba(255,72,0,0.3);
-    transition: gap 0.2s, border-color 0.2s;
-    white-space: nowrap;
-    margin-bottom: 0.5rem;
-  }
-
-  .section-link:hover { gap: 1rem; border-color: var(--fire); }
-
-  /* ── MENU CARDS ── */
-  .menu-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5px;
-    background: rgba(245,237,216,0.04);
-  }
-
-  .menu-card {
-    background: var(--charcoal);
-    padding: 2.5rem;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: background 0.3s;
-    min-height: 280px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-
-  .menu-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, transparent 60%, rgba(255,72,0,0.08));
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .menu-card:hover { background: var(--ash); }
-  .menu-card:hover::before { opacity: 1; }
-
-  .menu-card-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 5rem;
-    color: rgba(245,237,216,0.04);
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    line-height: 1;
-    transition: color 0.3s;
-    pointer-events: none;
-  }
-
-  .menu-card:hover .menu-card-number { color: rgba(255,72,0,0.12); }
-
-  .menu-card-icon {
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
-    display: block;
-  }
-
-  .menu-card-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
-  }
-
-  .menu-card-desc {
-    font-size: 0.85rem;
+  .promise p {
+    font-size: 0.95rem;
     font-weight: 300;
-    line-height: 1.6;
+    line-height: 1.85;
     color: var(--muted);
+    margin-bottom: 1.2rem;
   }
 
-  .menu-card-tag {
-    display: inline-block;
-    background: var(--fire);
-    color: var(--black);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.6rem;
-    margin-bottom: 1rem;
-    align-self: flex-start;
-  }
-
-  /* ── ABOUT STRIP ── */
-  .about-strip {
-    background: var(--charcoal);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 60vh;
-    overflow: hidden;
-  }
-
-  .about-visual {
-    background:
-      radial-gradient(ellipse 100% 80% at 30% 60%, rgba(255,72,0,0.2) 0%, transparent 65%),
-      var(--ash);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem;
-    position: relative;
-  }
-
-  .about-badge {
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,72,0,0.3);
+  .promise-pillars {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    position: relative;
-  }
-
-  .about-badge::before {
-    content: '';
-    position: absolute;
-    inset: 8px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,72,0,0.15);
-  }
-
-  .about-badge-main {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 5rem;
-    color: var(--fire);
-    line-height: 0.9;
-  }
-
-  .about-badge-sub {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 0.5rem;
-  }
-
-  .about-content {
-    padding: 5rem 4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .about-content p {
-    font-size: 1.05rem;
-    font-weight: 300;
-    line-height: 1.8;
-    color: rgba(245,237,216,0.75);
-    margin-bottom: 1.5rem;
-    max-width: 460px;
-  }
-
-  /* ── PILLARS ── */
-  .pillars {
-    padding: 7rem 4rem;
-    background: var(--black);
-  }
-
-  .pillars-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .pillars-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    margin-top: 4rem;
-    background: rgba(245,237,216,0.04);
+    gap: 0;
+    border: 1px solid var(--border);
   }
 
   .pillar {
-    background: var(--black);
-    padding: 3rem 2.5rem;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.3s, background 0.3s;
+    padding: 1.8rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 1.4rem;
+    align-items: flex-start;
+    transition: background 0.25s;
+    cursor: default;
   }
 
-  .pillar:hover {
-    background: var(--charcoal);
-    border-color: var(--fire);
-  }
+  .pillar:last-child { border-bottom: none; }
+  .pillar:hover { background: var(--panel); }
 
-  .pillar-icon { font-size: 1.8rem; margin-bottom: 1.5rem; display: block; }
-
-  .pillar-title {
-    font-family: 'Bebas Neue', sans-serif;
+  .pillar-icon {
     font-size: 1.5rem;
-    letter-spacing: 0.05em;
-    margin-bottom: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
   }
 
-  .pillar-text {
-    font-size: 0.9rem;
+  .pillar-body h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .pillar-body p {
+    font-size: 0.82rem;
     font-weight: 300;
     line-height: 1.7;
     color: var(--muted);
+    margin: 0;
   }
 
-  /* ── LOCATIONS ── */
-  .locations {
-    background: var(--charcoal);
-    padding: 7rem 4rem;
-    text-align: center;
+  /* ── MENU PREVIEW ── */
+  .menu-section {
+    padding: 6rem 5rem;
+    background: var(--dark);
   }
 
-  .locations-inner {
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  .menu-inner { max-width: 1300px; margin: 0 auto; }
 
-  .country-flags {
+  .menu-header {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin: 3rem 0;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3.5rem;
   }
 
-  .flag-btn {
-    background: var(--ash);
-    border: 1px solid rgba(245,237,216,0.08);
-    color: var(--cream);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
+  .menu-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .menu-header h2 em { font-style: italic; color: var(--gold); }
+
+  .view-all {
+    font-size: 0.75rem;
+    font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    padding: 0.7rem 1.6rem;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
+    color: var(--gold);
     text-decoration: none;
-    display: inline-block;
+    border-bottom: 1px solid rgba(200,146,42,0.3);
+    padding-bottom: 0.2rem;
+    transition: border-color 0.2s;
+    margin-bottom: 0.4rem;
+    white-space: nowrap;
   }
 
-  .flag-btn:hover { background: var(--fire); border-color: var(--fire); color: var(--black); }
+  .view-all:hover { border-color: var(--gold); }
 
-  /* ── CTA BANNER ── */
-  .cta-banner {
-    background: var(--fire);
-    padding: 6rem 4rem;
-    text-align: center;
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .menu-card {
+    background: var(--dark);
+    padding: 2rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: background 0.25s;
     position: relative;
     overflow: hidden;
   }
 
-  .cta-banner::before {
-    content: 'GDK';
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 30vw;
-    color: rgba(0,0,0,0.08);
+  .menu-card::after {
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    line-height: 1;
-    pointer-events: none;
-    white-space: nowrap;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
   }
 
-  .cta-banner h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 7vw, 6rem);
-    color: var(--black);
-    letter-spacing: 0.02em;
-    line-height: 0.95;
-    margin-bottom: 1.5rem;
-    position: relative;
+  .menu-card:hover { background: var(--panel); }
+  .menu-card:hover::after { transform: scaleX(1); }
+
+  .card-emoji { font-size: 2rem; }
+
+  .card-tag {
+    display: inline-block;
+    background: rgba(200,146,42,0.12);
+    color: var(--gold);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    align-self: flex-start;
   }
 
-  .cta-banner p {
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(10,8,6,0.65);
-    margin-bottom: 2.5rem;
-    position: relative;
-  }
-
-  .btn-dark {
-    background: var(--black);
-    color: var(--cream);
-    font-family: 'Barlow Condensed', sans-serif;
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
     font-weight: 700;
-    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .card-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-top: 0.4rem;
+  }
+
+  /* ── VISIT ── */
+  .visit {
+    padding: 7rem 5rem;
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .visit h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 2rem;
+  }
+
+  .visit h2 em { font-style: italic; color: var(--gold); }
+
+  .info-block {
+    border: 1px solid var(--border);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .info-row {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+
+  .info-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .info-label {
+    font-size: 0.65rem;
+    font-weight: 500;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    padding: 1.1rem 3rem;
-    text-decoration: none;
-    display: inline-block;
-    position: relative;
-    transition: background 0.2s;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
   }
 
-  .btn-dark:hover { background: var(--charcoal); }
+  .info-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .info-sub {
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    line-height: 1.6;
+  }
+
+  .hours-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--muted);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(200,146,42,0.08);
+  }
+
+  .hours-row span:last-child { color: var(--cream); font-weight: 400; }
+
+  .visit-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .visit-cta p {
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── CTA ── */
+  .cta {
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    padding: 7rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(200,146,42,0.07) 0%, transparent 65%);
+  }
+
+  .cta-inner { position: relative; }
+
+  .cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1.2rem;
+  }
+
+  .cta h2 em { font-style: italic; color: var(--gold); }
+
+  .cta p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   /* ── FOOTER ── */
   footer {
     background: var(--black);
-    border-top: 1px solid rgba(245,237,216,0.06);
-    padding: 4rem;
+    padding: 3.5rem 5rem;
   }
 
   .footer-inner {
-    max-width: 1400px;
+    max-width: 1300px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 3rem;
-  }
-
-  .footer-brand {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.5rem;
-    color: var(--fire);
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-    display: block;
-  }
-
-  .footer-brand span { color: var(--cream); }
-
-  .footer-tagline {
-    font-size: 0.85rem;
-    font-weight: 300;
-    color: var(--muted);
-    line-height: 1.7;
-    max-width: 260px;
-  }
-
-  .footer-col h4 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--fire);
-    margin-bottom: 1.5rem;
-  }
-
-  .footer-col ul { list-style: none; }
-
-  .footer-col li {
-    margin-bottom: 0.8rem;
-  }
-
-  .footer-col a {
-    font-size: 0.85rem;
-    font-weight: 300;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .footer-col a:hover { color: var(--cream); }
-
-  .footer-bottom {
-    max-width: 1400px;
-    margin: 3rem auto 0;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(245,237,216,0.06);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
   }
 
-  .footer-copy {
-    font-size: 0.75rem;
-    color: rgba(154,142,126,0.5);
-    letter-spacing: 0.05em;
+  .footer-brand {
+    text-decoration: none;
   }
 
-  .social-links {
+  .footer-brand-top {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+  }
+
+  .footer-brand-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--cream);
+    display: block;
+  }
+
+  .footer-links {
     display: flex;
-    gap: 1.2rem;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
   }
 
-  .social-links a {
+  .footer-links a {
     font-size: 0.75rem;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.15em;
+    font-weight: 400;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
     text-decoration: none;
     transition: color 0.2s;
   }
 
-  .social-links a:hover { color: var(--fire); }
+  .footer-links a:hover { color: var(--cream); }
 
-  /* ── ANIMATIONS ── */
-  .fade-up {
+  .footer-copy {
+    font-size: 0.72rem;
+    color: rgba(138,122,101,0.45);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── FADE-UP ── */
+  .fu {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(24px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
   }
-
-  .fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .fu.on { opacity: 1; transform: translateY(0); }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    nav { padding: 1.2rem 1.5rem; }
+    nav { padding: 1.4rem 1.5rem; }
     .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-right { display: none; }
-    .hero-left { padding: 8rem 1.5rem 4rem; }
-    .section { padding: 4rem 1.5rem; }
-    .menu-grid { grid-template-columns: 1fr; }
-    .stats { grid-template-columns: 1fr 1fr; }
-    .about-strip { grid-template-columns: 1fr; }
-    .about-visual { min-height: 300px; }
-    .pillars-grid { grid-template-columns: 1fr; }
-    .footer-inner { grid-template-columns: 1fr 1fr; }
-    .locations { padding: 4rem 1.5rem; }
-    .cta-banner { padding: 4rem 1.5rem; }
-    footer { padding: 3rem 1.5rem; }
+    .hero { padding: 0 1.5rem; }
+    .hero-circle { display: none; }
+    .promise { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
+    .menu-section { padding: 4rem 1.5rem; }
+    .menu-grid { grid-template-columns: 1fr 1fr; }
+    .visit { grid-template-columns: 1fr; padding: 4rem 1.5rem; gap: 3rem; }
+    .cta { padding: 5rem 1.5rem; }
+    footer { padding: 2.5rem 1.5rem; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -852,273 +779,233 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">GD<span>K</span></a>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-top">Est. Germany</span>
+    <span class="nav-logo-main">Original German Doner</span>
+  </a>
   <ul class="nav-links">
     <li><a href="#menu">Menu</a></li>
-    <li><a href="#about">Our Story</a></li>
-    <li><a href="#locations">Locations</a></li>
-    <li><a href="#franchise">Franchise</a></li>
-    <li><a href="#order" class="nav-cta">Order Now</a></li>
+    <li><a href="#visit">Visit Us</a></li>
+    <li><a href="#visit" class="nav-cta">Find Us</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-left">
-    <div class="hero-tag">Est. Berlin · 1989</div>
-    <h1 class="hero-title">
-      Kebabs<br>
-      <span class="accent">Done</span>
-      Right.
+  <div class="hero-bg"></div>
+
+  <div class="hero-circle">
+    <div class="spit">
+      <div class="spit-rod"></div>
+      <div class="layer l1"></div>
+      <div class="layer l2"></div>
+      <div class="layer l3"></div>
+      <div class="layer l4"></div>
+      <div class="layer l5"></div>
+      <div class="layer l6"></div>
+      <div class="layer l7"></div>
+      <div class="glow-base"></div>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">The Original</div>
+    <h1>
+      Döner.<br>
+      <em>Done</em><br>
+      Properly.
     </h1>
-    <p class="hero-sub">
-      The kebab reinvented. Premium whole-cut meats, freshly baked flatbreads, and signature sauces — crafted the German way.
+    <p class="hero-desc">
+      Handcrafted with the finest meats, fresh-baked bread, and time-honoured German tradition. No shortcuts. No compromises.
     </p>
-    <div class="hero-buttons">
-      <a href="#order" class="btn-primary">Order Now</a>
-      <a href="#menu" class="btn-secondary">View Menu</a>
+    <div class="hero-actions">
+      <a href="#menu" class="btn btn-gold">See the Menu</a>
+      <a href="#visit" class="btn btn-outline">Find Us</a>
     </div>
   </div>
-  <div class="hero-right">
-    <div class="hero-image-bg"></div>
-    <div class="kebab-art">
-      <div class="skewer"></div>
-      <div class="meat-layer m1"></div>
-      <div class="meat-layer m2"></div>
-      <div class="meat-layer m3"></div>
-      <div class="meat-layer m4"></div>
-      <div class="meat-layer m5"></div>
-      <div class="meat-layer m6"></div>
-      <div class="meat-layer m7"></div>
-      <div class="flame-glow"></div>
-    </div>
-  </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    Scroll to explore
+
+  <div class="hero-badge">
+    <div class="badge-line"></div>
+    <span class="badge-text">Authentic · Handmade · Fresh daily</span>
   </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item">German Doner Kebab</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Whole Chicken Thighs</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Freshly Baked Bread</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Signature Sauces</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Open Kitchens</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Halal Certified</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Kebabs Done Right</span><span class="marquee-item marquee-dot">✦</span>
-    <!-- duplicate for seamless loop -->
-    <span class="marquee-item">German Doner Kebab</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Whole Chicken Thighs</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Freshly Baked Bread</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Signature Sauces</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Open Kitchens</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Halal Certified</span><span class="marquee-item marquee-dot">✦</span>
-    <span class="marquee-item">Kebabs Done Right</span><span class="marquee-item marquee-dot">✦</span>
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-track">
+    <span class="strip-item">Authentic German Döner</span><span class="strip-dot">✦</span>
+    <span class="strip-item">Fresh-baked Bread</span><span class="strip-dot">✦</span>
+    <span class="strip-item">Premium Meats</span><span class="strip-dot">✦</span>
+    <span class="strip-item">House Sauces</span><span class="strip-dot">✦</span>
+    <span class="strip-item">Open Kitchen</span><span class="strip-dot">✦</span>
+    <span class="strip-item">Made to Order</span><span class="strip-dot">✦</span>
+    <span class="strip-item">Authentic German Döner</span><span class="strip-dot">✦</span>
+    <span class="strip-item">Fresh-baked Bread</span><span class="strip-dot">✦</span>
+    <span class="strip-item">Premium Meats</span><span class="strip-dot">✦</span>
+    <span class="strip-item">House Sauces</span><span class="strip-dot">✦</span>
+    <span class="strip-item">Open Kitchen</span><span class="strip-dot">✦</span>
+    <span class="strip-item">Made to Order</span><span class="strip-dot">✦</span>
   </div>
 </div>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stat-item fade-up">
-    <span class="stat-number">100+</span>
-    <span class="stat-label">Restaurants Worldwide</span>
+<!-- PROMISE -->
+<section class="promise">
+  <div class="fu">
+    <div class="promise-label">Our Promise</div>
+    <h2>Why we're the <em>original.</em></h2>
+    <p>A great döner is more than a meal — it's a ritual. Ours begins before the doors open: marinating the meat, baking the bread, preparing the sauces from scratch.</p>
+    <p>Every bite carries the care that only comes from doing things the right way, every single day.</p>
   </div>
-  <div class="stat-item fade-up">
-    <span class="stat-number">7</span>
-    <span class="stat-label">Countries</span>
+  <div class="promise-pillars fu">
+    <div class="pillar">
+      <div class="pillar-icon">🔥</div>
+      <div class="pillar-body">
+        <h4>Slow-roasted meats</h4>
+        <p>Our spits run from opening to closing. Only whole cuts — no fillers, no compressed blocks.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🫓</div>
+      <div class="pillar-body">
+        <h4>Bread baked in-house</h4>
+        <p>Fluffy, pillowy, slightly charred — our flatbread is made fresh every morning.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🥣</div>
+      <div class="pillar-body">
+        <h4>Sauces made from scratch</h4>
+        <p>Garlic yoghurt, spicy red, herb verde — blended daily from real ingredients.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🌿</div>
+      <div class="pillar-body">
+        <h4>Always fresh produce</h4>
+        <p>Crisp salads and herbs sourced locally and replenished throughout the day.</p>
+      </div>
+    </div>
   </div>
-  <div class="stat-item fade-up">
-    <span class="stat-number">35+</span>
-    <span class="stat-label">Years of Craft</span>
-  </div>
-  <div class="stat-item fade-up">
-    <span class="stat-number">1</span>
-    <span class="stat-label">Original Recipe</span>
-  </div>
-</div>
+</section>
 
 <!-- MENU -->
-<div id="menu">
-  <div class="section">
-    <div class="section-header">
-      <div>
-        <div class="section-eyebrow">The Menu</div>
-        <h2 class="section-title">Fuel<br>Up.</h2>
+<section class="menu-section" id="menu">
+  <div class="menu-inner">
+    <div class="menu-header">
+      <div class="fu">
+        <div class="promise-label" style="margin-bottom:0.8rem;">What We Serve</div>
+        <h2>The <em>Menu.</em></h2>
       </div>
-      <a href="#" class="section-link">Full Menu →</a>
+      <a href="#" class="view-all">Full Menu →</a>
     </div>
     <div class="menu-grid">
-      <div class="menu-card fade-up">
-        <span class="menu-card-number">01</span>
-        <span class="menu-card-tag">Signature</span>
-        <span class="menu-card-icon">🥙</span>
-        <h3 class="menu-card-title">Classic Doner</h3>
-        <p class="menu-card-desc">Slow-roasted beef & lamb, crisp slaw, tomatoes, fresh herb sauces — wrapped in a pillowy flatbread.</p>
+      <div class="menu-card fu">
+        <div class="card-emoji">🥙</div>
+        <span class="card-tag">Signature</span>
+        <div class="card-title">Classic Döner</div>
+        <div class="card-desc">Beef & lamb on the spit, garlic yoghurt, fresh herbs, tomato, slaw — wrapped in our warm flatbread.</div>
+        <div class="card-price">€6.50</div>
       </div>
-      <div class="menu-card fade-up">
-        <span class="menu-card-number">02</span>
-        <span class="menu-card-icon">🍗</span>
-        <h3 class="menu-card-title">Chicken Doner</h3>
-        <p class="menu-card-desc">100% whole chicken thighs, marinated and rotisserie-cooked. No fillers. No shortcuts.</p>
+      <div class="menu-card fu">
+        <div class="card-emoji">🍗</div>
+        <span class="card-tag">Fan Favourite</span>
+        <div class="card-title">Chicken Döner</div>
+        <div class="card-desc">Juicy marinated chicken thighs, slow-roasted and sliced fresh to order. Light, flavourful, satisfying.</div>
+        <div class="card-price">€6.00</div>
       </div>
-      <div class="menu-card fade-up">
-        <span class="menu-card-number">03</span>
-        <span class="menu-card-tag">Fan Fav</span>
-        <span class="menu-card-icon">🍔</span>
-        <h3 class="menu-card-title">Doner Burger</h3>
-        <p class="menu-card-desc">The best of both worlds — a thick doner patty, toasted bun, and all the signature GDK toppings.</p>
+      <div class="menu-card fu">
+        <div class="card-emoji">🌯</div>
+        <span class="card-tag">New</span>
+        <div class="card-title">Döner Dürüm</div>
+        <div class="card-desc">Everything you love, rolled tight in a lavash wrap. Crispy on the outside, packed on the inside.</div>
+        <div class="card-price">€6.50</div>
       </div>
-      <div class="menu-card fade-up">
-        <span class="menu-card-number">04</span>
-        <span class="menu-card-icon">🥗</span>
-        <h3 class="menu-card-title">Doner Salad</h3>
-        <p class="menu-card-desc">All the flavour, none of the bread. A generous bowl piled with greens, meats, and house dressing.</p>
-      </div>
-      <div class="menu-card fade-up">
-        <span class="menu-card-number">05</span>
-        <span class="menu-card-icon">🍟</span>
-        <h3 class="menu-card-title">Loaded Fries</h3>
-        <p class="menu-card-desc">Hand-cut fries loaded with doner meat, melted cheese, and our signature spicy sauce.</p>
-      </div>
-      <div class="menu-card fade-up">
-        <span class="menu-card-number">06</span>
-        <span class="menu-card-tag">New</span>
-        <span class="menu-card-icon">🌯</span>
-        <h3 class="menu-card-title">Doner Wrap</h3>
-        <p class="menu-card-desc">Tightly rolled, stuffed generously — a portable powerhouse of flavour for life on the move.</p>
+      <div class="menu-card fu">
+        <div class="card-emoji">🥗</div>
+        <div class="card-title">Döner Teller</div>
+        <div class="card-desc">A generous plate — grilled meats, rice or fries, salad, and your choice of two sauces.</div>
+        <div class="card-price">€9.50</div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ABOUT -->
-<div id="about" class="about-strip">
-  <div class="about-visual">
-    <div class="about-badge">
-      <span class="about-badge-main">GDK</span>
-      <span class="about-badge-sub">German Doner Kebab<br>Since 1989</span>
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div class="visit-cta fu">
+    <div class="promise-label">Come In</div>
+    <h2>Find your <em>nearest</em> table.</h2>
+    <p>We're easy to find, impossible to forget. Come hungry, leave satisfied.</p>
+    <a href="#" class="btn btn-gold" style="align-self:flex-start;">Get Directions</a>
+  </div>
+  <div class="info-block fu">
+    <div class="info-row">
+      <div class="info-icon">📍</div>
+      <div>
+        <div class="info-label">Address</div>
+        <div class="info-val">Musterstraße 12</div>
+        <div class="info-sub">10115 Berlin, Germany</div>
+      </div>
     </div>
-  </div>
-  <div class="about-content">
-    <div class="section-eyebrow">Our Story</div>
-    <h2 class="section-title" style="margin-bottom:2rem;">The Kebab<br>of the Future.</h2>
-    <p>Forget what you thought you knew. Born in Berlin and perfected over three decades, GDK took the humble doner and turned it into a premium dining experience.</p>
-    <p>We use only the finest whole-cut meats, never compressed. Our bread is freshly baked. Our kitchens are open — because we have nothing to hide.</p>
-    <a href="#" class="btn-primary" style="align-self:flex-start;">Learn More</a>
-  </div>
-</div>
-
-<!-- PILLARS -->
-<div class="pillars">
-  <div class="pillars-inner">
-    <div class="section-eyebrow">Why GDK</div>
-    <h2 class="section-title">Nothing<br>Beats This.</h2>
-    <div class="pillars-grid">
-      <div class="pillar fade-up">
-        <span class="pillar-icon">🔥</span>
-        <h3 class="pillar-title">Real Meat, Real Flavour</h3>
-        <p class="pillar-text">We only use whole chicken thighs and premium cuts. Every spit is packed and seasoned in-house, slow-roasted to perfection.</p>
+    <div class="info-row">
+      <div class="info-icon">📞</div>
+      <div>
+        <div class="info-label">Phone</div>
+        <div class="info-val">+49 30 1234 5678</div>
+        <div class="info-sub">We also take orders by phone</div>
       </div>
-      <div class="pillar fade-up">
-        <span class="pillar-icon">🫓</span>
-        <h3 class="pillar-title">Freshly Baked Daily</h3>
-        <p class="pillar-text">Our signature flatbread is baked fresh in every restaurant, every day. Soft, warm, and designed to hold the whole thing together.</p>
-      </div>
-      <div class="pillar fade-up">
-        <span class="pillar-icon">👁</span>
-        <h3 class="pillar-title">Open Kitchens</h3>
-        <p class="pillar-text">We've got nothing to hide. Every GDK restaurant has a fully open kitchen so you can watch your food being made from start to finish.</p>
+    </div>
+    <div class="info-row">
+      <div class="info-icon">🕐</div>
+      <div>
+        <div class="info-label">Opening Hours</div>
+        <div class="hours-grid">
+          <div class="hours-row"><span>Mon – Fri</span><span>11:00 – 22:00</span></div>
+          <div class="hours-row"><span>Saturday</span><span>11:00 – 23:00</span></div>
+          <div class="hours-row"><span>Sunday</span><span>12:00 – 21:00</span></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- LOCATIONS -->
-<div id="locations" class="locations">
-  <div class="locations-inner">
-    <div class="section-eyebrow" style="justify-content:center;">Find Us</div>
-    <h2 class="section-title" style="margin-bottom:1rem;">We're Near You.</h2>
-    <p style="color:var(--muted);font-weight:300;font-size:1rem;margin-bottom:0.5rem;">Serving in 7 countries across 3 continents.</p>
-    <div class="country-flags">
-      <a href="#" class="flag-btn">🇬🇧 United Kingdom</a>
-      <a href="#" class="flag-btn">🇮🇪 Ireland</a>
-      <a href="#" class="flag-btn">🇦🇪 UAE</a>
-      <a href="#" class="flag-btn">🇸🇪 Sweden</a>
-      <a href="#" class="flag-btn">🇸🇦 Saudi Arabia</a>
-      <a href="#" class="flag-btn">🇨🇦 Canada</a>
-      <a href="#" class="flag-btn">🇺🇸 USA</a>
-    </div>
-    <a href="#" class="btn-primary">Find Nearest Restaurant</a>
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner fu">
+    <h2>Come taste the<br><em>original.</em></h2>
+    <p>No gimmicks. No chain. Just an honest döner made with real craft.</p>
+    <a href="#visit" class="btn btn-gold">Visit Us Today</a>
   </div>
-</div>
-
-<!-- CTA BANNER -->
-<div class="cta-banner" id="order">
-  <h2>Order Now.<br>Thank Yourself Later.</h2>
-  <p>Pickup or delivery — always fresh, always fast.</p>
-  <a href="#" class="btn-dark">Start Your Order</a>
-</div>
+</section>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div>
-      <span class="footer-brand">GD<span>K</span></span>
-      <p class="footer-tagline">German Doner Kebab. Reinventing the doner since 1989. Premium meats, freshly baked bread, open kitchens.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Explore</h4>
-      <ul>
-        <li><a href="#">Our Food</a></li>
-        <li><a href="#">The Menu</a></li>
-        <li><a href="#">Offers</a></li>
-        <li><a href="#">Latest News</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#">Our Story</a></li>
-        <li><a href="#">Franchise</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Contact Us</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Cookie Policy</a></li>
-        <li><a href="#">Allergen Info</a></li>
-        <li><a href="#">Halal Certificate</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© German Doner Kebab 2026. All rights reserved.</span>
-    <div class="social-links">
-      <a href="#">Instagram</a>
-      <a href="#">TikTok</a>
-      <a href="#">Facebook</a>
-    </div>
+    <a href="#" class="footer-brand">
+      <span class="footer-brand-top">Germany</span>
+      <span class="footer-brand-main">Original German Doner</span>
+    </a>
+    <ul class="footer-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#visit">Directions</a></li>
+      <li><a href="#">Allergens</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <span class="footer-copy">© Original German Doner 2026</span>
   </div>
 </footer>
 
 <script>
-  // Fade-up on scroll
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('on'), i * 100);
+        obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.12 });
 
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  document.querySelectorAll('.fu').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
