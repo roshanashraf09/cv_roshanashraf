@@ -41,6 +41,9 @@
   }
   nav.scrolled { background: rgba(13,13,13,0.97); }
   .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     font-family: 'Bebas Neue', cursive;
     font-size: 1.6rem;
     letter-spacing: 0.15em;
@@ -48,6 +51,11 @@
     text-decoration: none;
   }
   .nav-logo span { color: var(--red-light); }
+  .nav-logo-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a {
     color: var(--cream);
@@ -672,7 +680,28 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#" class="nav-logo">Original <span>German</span> Doner</a>
+  <a href="#" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Plate base -->
+      <ellipse cx="21" cy="36" rx="13" ry="3" fill="#c9a84c" opacity="0.3"/>
+      <!-- Spit/skewer pole -->
+      <rect x="19.5" y="4" width="3" height="30" rx="1.5" fill="#c9a84c"/>
+      <!-- Meat layers stacked on spit -->
+      <ellipse cx="21" cy="28" rx="11" ry="4" fill="#8B4513"/>
+      <ellipse cx="21" cy="28" rx="10" ry="3.2" fill="#A0522D"/>
+      <ellipse cx="21" cy="22" rx="10" ry="3.8" fill="#8B4513"/>
+      <ellipse cx="21" cy="22" rx="9" ry="3" fill="#A0522D"/>
+      <ellipse cx="21" cy="16.5" rx="9" ry="3.5" fill="#8B4513"/>
+      <ellipse cx="21" cy="16.5" rx="8" ry="2.8" fill="#A0522D"/>
+      <ellipse cx="21" cy="11.5" rx="7" ry="3" fill="#8B4513"/>
+      <ellipse cx="21" cy="11.5" rx="6" ry="2.3" fill="#c9a84c" opacity="0.7"/>
+      <!-- Top cap -->
+      <ellipse cx="21" cy="8" rx="4" ry="2" fill="#c9a84c"/>
+      <!-- Highlight sheen on meat -->
+      <ellipse cx="17" cy="21.5" rx="2.5" ry="1" fill="rgba(255,255,255,0.12)" transform="rotate(-10 17 21.5)"/>
+    </svg>
+    Original <span>German</span> Doner
+  </a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#menu">Menu</a></li>
