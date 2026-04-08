@@ -7,15 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --gold: #C8922A;
-    --gold-light: #E8B455;
-    --red: #C0392B;
-    --black: #0D0C0B;
-    --dark: #181512;
-    --panel: #201C18;
-    --border: rgba(200,146,42,0.18);
-    --cream: #F2E8D5;
-    --muted: #8A7A65;
+    --gold: #FF6200;
+    --gold-light: #FF8C3A;
+    --red: #FF3D00;
+    --black: #0E0800;
+    --dark: #160C00;
+    --panel: #1F1000;
+    --border: rgba(255,98,0,0.28);
+    --cream: #FFF0E0;
+    --muted: #B07040;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -130,8 +130,8 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 55% 70% at 75% 55%, rgba(200,146,42,0.13) 0%, transparent 65%),
-      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(192,57,43,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 70% at 75% 55%, rgba(255,98,0,0.35) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,61,0,0.2) 0%, transparent 60%),
       var(--black);
   }
 
@@ -163,7 +163,7 @@
     position: absolute;
     inset: 40px;
     border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(200,146,42,0.1) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(255,98,0,0.22) 0%, transparent 70%);
   }
 
   /* skewer inside circle */
@@ -181,7 +181,7 @@
     transform: translateX(-50%);
     width: 5px;
     height: 94%;
-    background: linear-gradient(to bottom, #9A7020, #D4A040, #9A7020);
+    background: linear-gradient(to bottom, #CC5500, #FF7A00, #CC5500);
     border-radius: 3px;
     box-shadow: 0 0 40px rgba(200,146,42,0.25);
   }
@@ -216,7 +216,7 @@
     transform: translateX(-50%);
     width: 220px;
     height: 120px;
-    background: radial-gradient(ellipse, rgba(200,146,42,0.45) 0%, rgba(192,57,43,0.15) 40%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(255,98,0,0.7) 0%, rgba(255,61,0,0.3) 40%, transparent 70%);
     filter: blur(18px);
     animation: pulse 2.5s ease-in-out infinite alternate;
   }
@@ -519,7 +519,7 @@
 
   .card-tag {
     display: inline-block;
-    background: rgba(200,146,42,0.12);
+    background: rgba(255,98,0,0.18);
     color: var(--gold);
     font-size: 0.62rem;
     font-weight: 500;
@@ -630,7 +630,7 @@
     font-weight: 300;
     color: var(--muted);
     padding: 0.3rem 0;
-    border-bottom: 1px solid rgba(200,146,42,0.08);
+    border-bottom: 1px solid rgba(255,98,0,0.15);
   }
 
   .hours-row span:last-child { color: var(--cream); font-weight: 400; }
@@ -664,7 +664,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(200,146,42,0.07) 0%, transparent 65%);
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,98,0,0.2) 0%, transparent 65%);
   }
 
   .cta-inner { position: relative; }
