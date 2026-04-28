@@ -148,6 +148,8 @@ section { padding:8rem 0; }
 .project-desc { font-size:.85rem; color:#1a3040; line-height:1.75; flex:1; }
 .project-tags { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:1.5rem; }
 .project-tag { font-family:var(--font-mono); font-size:.55rem; padding:.22rem .55rem; background:rgba(0,212,200,.04); border:1px solid rgba(0,212,200,.12); color:#1a5555; border-radius:2px; }
+.project-link { margin-top:1.5rem; display:inline-block; font-family:var(--font-mono); font-size:.6rem; color:var(--teal); text-decoration:none; border:1px solid rgba(0,212,200,.3); padding:.6rem 1.2rem; text-transform:uppercase; letter-spacing:.1em; transition:all .3s; width:max-content; position:relative; z-index:2; clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%); }
+.project-link:hover { background:rgba(0,212,200,.08); border-color:var(--teal); color:var(--white); }
 
 #languages { padding:5rem 0; border-top:1px solid var(--border); }
 .lang-grid { display:grid; grid-template-columns:1fr 2fr; gap:6rem; align-items:center; }
@@ -373,6 +375,7 @@ section { padding:8rem 0; }
         <div class="project-title">Robot Navigation Through Rough Terrain</div>
         <div class="project-desc">Autonomous robot programmed to navigate complex, unpredictable terrain. Applicable to military reconnaissance, police search-and-rescue, and stealth operations in environments hostile to human presence.</div>
         <div class="project-tags"><span class="project-tag">ROS</span><span class="project-tag">Python</span><span class="project-tag">Autonomous Nav</span><span class="project-tag">Robotics</span></div>
+        <a href="/ros2" class="project-link">View Project System ➔</a>
       </div>
       <div class="project-card reveal reveal-delay-3">
         <div class="project-num">PROJECT_03</div>
