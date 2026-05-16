@@ -33,26 +33,89 @@
       user: {
         username: username || 'Hunter',
         joined: todayISO(),
-        rank: 'B',
-        level: 14,
-        xp: 620,
-        xpNext: 1000,
-        streak: 14
+        rank: 'E',
+        rankLabel: 'Awakened',
+        level: 1,
+        xp: 0,
+        xpNext: 100,
+        totalXp: 0,
+        streak: 0,
+        workoutsCompleted: 0,
+        totalSets: 0,
+        // Profile fields (filled on profile page)
+        age: null,
+        gender: '',
+        height: null,
+        weight: null,
+        goalWeight: null,
+        activity: 'moderate',
+        goal: '',
+        profileComplete: false
       },
-      stats: { STR: 82, END: 64, AGI: 71, VIT: 78, INT: 60, PER: 55 },
+      stats: { STR: 10, END: 10, AGI: 10, VIT: 10, INT: 10, PER: 10 },
       targets: { kcal: 2200, protein: 180, carbs: 220, fats: 70 },
-      today: { date: todayISO(), workout: {}, meals: [] },
-      // Week of weight + kcal — seed with realistic-ish demo data
+      today: { date: todayISO(), workout: {}, meals: [], dayOverride: null },
+      achievements: [],
       week: [
-        { d: 'Mon', kg: 82.4, kcal: 2150 },
-        { d: 'Tue', kg: 82.1, kcal: 2230 },
-        { d: 'Wed', kg: 82.0, kcal: 2080 },
-        { d: 'Thu', kg: 81.7, kcal: 2200 },
-        { d: 'Fri', kg: 81.6, kcal: 2310 },
-        { d: 'Sat', kg: 81.4, kcal: 0 },
+        { d: 'Mon', kg: null, kcal: 0 },
+        { d: 'Tue', kg: null, kcal: 0 },
+        { d: 'Wed', kg: null, kcal: 0 },
+        { d: 'Thu', kg: null, kcal: 0 },
+        { d: 'Fri', kg: null, kcal: 0 },
+        { d: 'Sat', kg: null, kcal: 0 },
         { d: 'Sun', kg: null, kcal: 0 }
       ]
     };
+  }
+
+  // ============================================================
+  // RANK SYSTEM
+  // ============================================================
+  const RANKS = [
+    { letter: 'E', label: 'Awakened',  min: 0 },
+    { letter: 'D', label: 'Apprentice', min: 500 },
+    { letter: 'C', label: 'Adept',      min: 1500 },
+    { letter: 'B', label: 'Veteran',    min: 3500 },
+    { letter: 'A', label: 'Elite',      min: 7000 },
+    { letter: 'S', label: 'Monarch',    min: 14000 }
+  ];
+
+  function rankFor(totalXp) {
+    for (let i = RANKS.length - 1; i >= 0; i--) {
+      if (totalXp >= RANKS[i].min) return { ...RANKS[i], idx: i, next: RANKS[i + 1] || null };
+    }
+    return { ...RANKS[0], idx: 0, next: RANKS[1] };
+  }
+
+  // ============================================================
+  // ACHIEVEMENTS
+  // ============================================================
+  const ACHIEVEMENTS = [
+    { id: 'awaken',       icon: '⟁', name: 'First Awakening',   desc: 'Begin your hunter journey',     check: s => true },
+    { id: 'first_set',    icon: '◆', name: 'First Set',          desc: 'Log your first set',           check: s => s.user.totalSets >= 1 },
+    { id: 'first_workout',icon: '⚔', name: 'Daily Conqueror',    desc: 'Complete a full workout',      check: s => s.user.workoutsCompleted >= 1 },
+    { id: 'streak_3',     icon: '⚡', name: 'Triple Threat',      desc: 'Reach a 3-day streak',         check: s => s.user.streak >= 3 },
+    { id: 'streak_7',     icon: '✦', name: 'Week Warrior',       desc: 'Reach a 7-day streak',         check: s => s.user.streak >= 7 },
+    { id: 'rank_d',       icon: 'D', name: 'Rise to D-Rank',     desc: 'Earn 500 total XP',            check: s => s.user.totalXp >= 500 },
+    { id: 'rank_c',       icon: 'C', name: 'Rise to C-Rank',     desc: 'Earn 1,500 total XP',          check: s => s.user.totalXp >= 1500 },
+    { id: 'macro_master', icon: '▣', name: 'Macro Master',       desc: 'Hit all 3 macro targets in a day', check: s => {
+      const t = (s._totals || { p: 0, c: 0, f: 0 });
+      return t.p >= s.targets.protein && t.c >= s.targets.carbs && t.f >= s.targets.fats;
+    }},
+    { id: 'meals_10',     icon: '✱', name: 'Nutrition Tracker',  desc: 'Log 10 meals total',           check: s => (s.user.mealsLogged || 0) >= 10 },
+    { id: 'workouts_10',  icon: '◢', name: 'Iron Will',          desc: 'Complete 10 workouts',         check: s => s.user.workoutsCompleted >= 10 }
+  ];
+
+  function checkAchievements(s) {
+    const newly = [];
+    s.achievements = s.achievements || [];
+    ACHIEVEMENTS.forEach(a => {
+      if (!s.achievements.includes(a.id) && a.check(s)) {
+        s.achievements.push(a.id);
+        newly.push(a);
+      }
+    });
+    return newly;
   }
 
   function setError(fieldId, msg) {
@@ -216,6 +279,81 @@
   }
 
   // ============================================================
+  // PROFILE PAGE (profile.html)
+  // ============================================================
+  if (document.body.classList.contains('profile-page')) {
+    let pState = loadState();
+    if (!pState) { pState = defaultState('Hunter'); saveState(pState); }
+
+    // Prefill form
+    const fields = ['username', 'age', 'gender', 'height', 'weight', 'goalWeight', 'activity', 'goal'];
+    fields.forEach(k => { if ($(k) && pState.user[k] != null) $(k).value = pState.user[k]; });
+    if ($('kcalTargetIn')) $('kcalTargetIn').value = pState.targets.kcal;
+    if ($('proteinTargetIn')) $('proteinTargetIn').value = pState.targets.protein;
+
+    // Rank ring
+    const r = rankFor(pState.user.totalXp || 0);
+    $('rankLetter').textContent = r.letter;
+    $('rankLabel').textContent = r.label.toUpperCase();
+    if (r.next) {
+      const span = r.next.min - r.min;
+      const into = (pState.user.totalXp || 0) - r.min;
+      const pct = Math.min(1, into / span);
+      const C = 2 * Math.PI * 52;
+      $('rankRingFill').setAttribute('stroke-dasharray', C);
+      $('rankRingFill').setAttribute('stroke-dashoffset', C * (1 - pct));
+      $('rankNext').innerHTML = '<strong>' + (r.next.min - (pState.user.totalXp || 0)) + '</strong> XP to ' + r.next.letter + '-rank';
+    } else {
+      $('rankNext').innerHTML = '<strong>Max rank achieved</strong>';
+    }
+
+    // Achievements grid
+    const ach = pState.achievements || [];
+    $('achCount').textContent = ach.length + ' / ' + ACHIEVEMENTS.length;
+    const grid = $('achGrid');
+    ACHIEVEMENTS.forEach(a => {
+      const unlocked = ach.includes(a.id);
+      const el = document.createElement('div');
+      el.className = 'ach ' + (unlocked ? 'unlocked' : 'locked');
+      el.innerHTML = `
+        <div class="ach-icon">${unlocked ? a.icon : '?'}</div>
+        <div>
+          <div class="ach-name">${unlocked ? a.name : '???'}</div>
+          <div class="ach-desc">${a.desc}</div>
+        </div>
+      `;
+      grid.appendChild(el);
+    });
+
+    // Save handler
+    $('profileForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      pState.user.username = $('username').value.trim() || pState.user.username;
+      pState.user.age = $('age').value ? parseInt($('age').value) : null;
+      pState.user.gender = $('gender').value.trim();
+      pState.user.height = $('height').value ? parseFloat($('height').value) : null;
+      pState.user.weight = $('weight').value ? parseFloat($('weight').value) : null;
+      pState.user.goalWeight = $('goalWeight').value ? parseFloat($('goalWeight').value) : null;
+      pState.user.activity = $('activity').value.trim() || 'moderate';
+      pState.user.goal = $('goal').value.trim();
+      pState.targets.kcal = parseInt($('kcalTargetIn').value) || pState.targets.kcal;
+      pState.targets.protein = parseInt($('proteinTargetIn').value) || pState.targets.protein;
+      pState.user.profileComplete = true;
+
+      // Seed current weight into this week if set
+      if (pState.user.weight) {
+        const todayIdx = (new Date().getDay() + 6) % 7;
+        pState.week[todayIdx].kg = pState.user.weight;
+      }
+
+      saveState(pState);
+      showToast('Profile saved · stats calibrated');
+    });
+
+    return; // stop here — dashboard logic below shouldn't run on profile page
+  }
+
+  // ============================================================
   // DASHBOARD (home.html)
   // ============================================================
 
@@ -271,13 +409,71 @@
   };
 
   const dayMap = ['Rest', 'Push', 'Pull', 'Legs', 'Push', 'Pull', 'Legs']; // Sun..Sat
-  const todaysSplit = dayMap[new Date().getDay()];
-  const todaysWorkout = WORKOUTS[todaysSplit];
+  const autoSplit = dayMap[new Date().getDay()];
+  let todaysSplit = state.today.dayOverride || autoSplit;
+  let todaysWorkout = WORKOUTS[todaysSplit];
 
   // Reset today's workout/meals if date changed
   if (state.today.date !== todayISO()) {
-    state.today = { date: todayISO(), workout: {}, meals: [] };
+    state.today = { date: todayISO(), workout: {}, meals: [], dayOverride: state.today.dayOverride || null };
     saveState(state);
+  }
+
+  // ---------- XP / RANK / ACHIEVEMENT HELPERS ----------
+  function awardXp(amount, reason) {
+    state.user.xp = (state.user.xp || 0) + amount;
+    state.user.totalXp = (state.user.totalXp || 0) + amount;
+
+    // Level up if XP fills the bar
+    while (state.user.xp >= state.user.xpNext) {
+      state.user.xp -= state.user.xpNext;
+      state.user.level += 1;
+      state.user.xpNext = Math.round(state.user.xpNext * 1.15);
+      showToast('LVL UP — you are now level ' + state.user.level);
+    }
+
+    // Rank up check
+    const r = rankFor(state.user.totalXp);
+    if (r.letter !== state.user.rank) {
+      state.user.rank = r.letter;
+      state.user.rankLabel = r.label;
+      setTimeout(() => showToast('RANK UP — ascended to ' + r.letter + '-Rank'), 600);
+    }
+
+    // Achievement check
+    const newAch = checkAchievements(state);
+    newAch.forEach((a, i) => {
+      setTimeout(() => {
+        const t = $('toast');
+        if (t) {
+          t.classList.add('ach-toast');
+          $('toast-text').textContent = a.icon + '  ' + a.name + ' unlocked';
+          $('toast').querySelector('.toast-label').textContent = '★ Achievement';
+          t.classList.add('show');
+          setTimeout(() => {
+            t.classList.remove('show');
+            t.classList.remove('ach-toast');
+            $('toast').querySelector('.toast-label').textContent = '⟁ System';
+          }, 3500);
+        }
+      }, 1200 + i * 500);
+    });
+
+    saveState(state);
+    updateXpDisplay();
+  }
+
+  function updateXpDisplay() {
+    if (!$('lvlLabel')) return;
+    $('lvlLabel').textContent = 'LVL ' + state.user.level;
+    $('xpLabel').innerHTML = state.user.xp + ' <span class="total">/ ' + state.user.xpNext + ' XP</span>';
+    $('xpFill').style.width = (state.user.xp / state.user.xpNext * 100) + '%';
+    if ($('qsLevel')) $('qsLevel').textContent = state.user.level;
+  }
+
+  // Award "First Awakening" achievement on first dashboard visit
+  if (!(state.achievements || []).includes('awaken')) {
+    setTimeout(() => awardXp(10, 'awakening'), 800);
   }
 
   // ---------- HEADER ----------
@@ -290,7 +486,7 @@
   $('greeting').textContent = '⟁ ' + greetWord;
   $('hunterName').textContent = state.user.username;
   $('avatar').textContent = state.user.username.charAt(0).toUpperCase();
-  $('rankTag').textContent = 'RANK ' + state.user.rank;
+  $('rankTag').textContent = 'RANK ' + state.user.rank + ' · ' + state.user.rankLabel.toUpperCase();
   $('streakTag').textContent = '⚡ ' + state.user.streak + ' DAY STREAK';
 
   // Days until July 26, 2026
@@ -360,17 +556,58 @@
     state.today.workout[exIdx] = done;
 
     if (i === -1) {
-      state.user.xp = Math.min(state.user.xpNext, state.user.xp + 5);
-      showToast('+5 XP — set logged');
+      state.user.totalSets = (state.user.totalSets || 0) + 1;
+      // Stat gain — small RNG +1 to a random stat per set
+      const keys = Object.keys(state.stats);
+      const k = keys[Math.floor(Math.random() * keys.length)];
+      state.stats[k] = Math.min(100, state.stats[k] + 1);
+
+      saveState(state);
+      awardXp(5, 'set logged');
+
+      // Workout completion check
+      const totalSets = todaysWorkout.exercises.reduce((a, e) => a + e.sets, 0);
+      const doneSets = Object.values(state.today.workout).reduce((a, s) => a + s.length, 0);
+      if (doneSets === totalSets && !state.today.completed) {
+        state.today.completed = true;
+        state.user.workoutsCompleted = (state.user.workoutsCompleted || 0) + 1;
+        state.user.streak = (state.user.streak || 0) + 1;
+        saveState(state);
+        setTimeout(() => awardXp(50, 'workout complete'), 400);
+      }
+    } else {
+      saveState(state);
     }
 
-    saveState(state);
     renderWorkout();
-    $('xpLabel').innerHTML = state.user.xp + ' <span class="total">/ ' + state.user.xpNext + ' XP</span>';
-    $('xpFill').style.width = (state.user.xp / state.user.xpNext * 100) + '%';
+    renderStats();
   }
 
   renderWorkout();
+
+  // ---------- DAY PICKER ----------
+  function renderDayPicker() {
+    document.querySelectorAll('.day-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.day === todaysSplit);
+      btn.classList.toggle('today', btn.dataset.day === autoSplit);
+    });
+  }
+
+  document.querySelectorAll('.day-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const newDay = btn.dataset.day;
+      todaysSplit = newDay;
+      todaysWorkout = WORKOUTS[newDay];
+      state.today.dayOverride = (newDay === autoSplit) ? null : newDay;
+      state.today.workout = {}; // reset progress when switching
+      state.today.completed = false;
+      saveState(state);
+      renderDayPicker();
+      renderWorkout();
+      showToast('Switched to ' + todaysWorkout.name);
+    });
+  });
+  renderDayPicker();
 
   // ---------- STATS RENDER ----------
   function renderStats() {
@@ -433,6 +670,7 @@
 
   function renderMacros() {
     const t = totals();
+    state._totals = t;
     const tg = state.targets;
     $('kcalNow').textContent = t.kcal;
     $('kcalTarget').textContent = tg.kcal;
@@ -444,7 +682,6 @@
     $('cBar').style.width = Math.min(100, (t.c / tg.carbs) * 100) + '%';
     $('fBar').style.width = Math.min(100, (t.f / tg.fats) * 100) + '%';
 
-    // Drive the kcal ring (circumference = 2 * pi * r = 2 * pi * 88 ≈ 552.92)
     const ring = $('kcalRing');
     if (ring) {
       const C = 2 * Math.PI * 88;
@@ -456,6 +693,44 @@
     const todayIdx = (new Date().getDay() + 6) % 7;
     state.week[todayIdx].kcal = t.kcal;
     drawChart();
+    renderMealLog();
+  }
+
+  function renderMealLog() {
+    const list = $('mealList');
+    if (!list) return;
+    list.innerHTML = '';
+    const meals = state.today.meals;
+    $('mealCount').textContent = meals.length + (meals.length === 1 ? ' item' : ' items');
+
+    if (meals.length === 0) {
+      list.innerHTML = '<div class="meal-empty">No meals logged yet. The system is watching.</div>';
+      return;
+    }
+
+    meals.forEach((m, idx) => {
+      const li = document.createElement('li');
+      li.className = 'meal-item';
+      li.innerHTML = `
+        <div>
+          <div class="meal-name">${m.text}</div>
+          <div class="meal-macros">
+            <span class="kcal">${m.kcal} kcal</span> · ${m.p}P · ${m.c}C · ${m.f}F
+          </div>
+        </div>
+        <button type="button" class="meal-remove" data-idx="${idx}" title="Remove">×</button>
+      `;
+      list.appendChild(li);
+    });
+
+    list.querySelectorAll('.meal-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        state.today.meals.splice(idx, 1);
+        saveState(state);
+        renderMacros();
+      });
+    });
   }
   renderMacros();
 
@@ -465,14 +740,15 @@
     if (!text) return;
     const meal = parseMeal(text);
     if (!meal) {
-      showToast("Food not in my codex yet — try 'chicken', 'rice', 'eggs', etc.");
+      showToast("Food not in my codex yet — try 'chicken', 'rice', 'eggs', salmon, oats, etc.");
       return;
     }
     state.today.meals.push(meal);
-    state.user.xp = Math.min(state.user.xpNext, state.user.xp + 2);
+    state.user.mealsLogged = (state.user.mealsLogged || 0) + 1;
     saveState(state);
     renderMacros();
     $('mealInput').value = '';
+    awardXp(2, 'meal logged');
     showToast('+' + meal.kcal + ' kcal logged · +2 XP');
   });
 
@@ -500,58 +776,66 @@
 
   async function askCoach(message) {
     /* ============================================================
-       PRODUCTION: replace this whole function body with a fetch to
-       your Go backend. The backend then proxies to OpenAI / Claude
-       (do NOT call those APIs from the browser — keys would leak).
+       This tries your real backend at /api/ai/coach first.
+       If it fails (404, network error, etc.), falls back to a
+       keyword stub so the UI keeps working.
 
-       Example Go endpoint signature:
+       Backend contract:
          POST /api/ai/coach
          Body: { message: string, context: object }
          Returns: { reply: string }
 
-       const res = await fetch('/api/ai/coach', {
-         method: 'POST',
-         headers: {
-           'Content-Type': 'application/json',
-           'Authorization': 'Bearer ' + localStorage.getItem('solofit_token')
-         },
-         body: JSON.stringify({ message, context: getUserContext() })
-       });
-       const data = await res.json();
-       return data.reply;
+       See FIREBASE_AI.md or AI_BACKEND.md in this folder
+       for the Cloud Function / Go handler examples.
        ============================================================ */
+    try {
+      const res = await fetch('/api/ai/coach', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': 'Bearer ' + localStorage.getItem('solofit_token')
+        },
+        body: JSON.stringify({ message, context: getUserContext() })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.reply) return data.reply;
+      }
+    } catch (e) {
+      // Network error — fall through to stub
+    }
 
+    // Fallback stub (keyword-matched)
     await new Promise((r) => setTimeout(r, 600 + Math.random() * 600));
     const ctx = getUserContext();
     const m = message.toLowerCase();
 
     if (/meal|food|eat|hungry/.test(m)) {
-      const proteinLeft = ctx.today.proteinTarget - ctx.today.protein;
-      return `Try 200g grilled chicken + 150g basmati rice + steamed broccoli. Roughly 480 kcal, 50g protein, 45g carbs, 6g fat — covers a big chunk of your remaining ${proteinLeft}g protein. Halal-friendly.`;
+      const proteinLeft = Math.max(0, ctx.today.proteinTarget - ctx.today.protein);
+      return `Try 200g grilled chicken + 150g basmati rice + steamed broccoli. ~480 kcal, 50g protein, 45g carbs, 6g fat. Covers a big chunk of your remaining ${proteinLeft}g protein. Halal-friendly.`;
     }
     if (/progress|how am i|doing/.test(m)) {
-      const wkChange = (state.week[0].kg - state.week[4].kg).toFixed(1);
-      return `Solid week, ${ctx.username}. Down ${wkChange}kg since Monday on ${ctx.streak} day streak. Protein adherence is your strongest stat. Keep the deficit under 500 kcal — anything more starts costing you lifts. ${weeksLeft} weeks to your July 26 deadline.`;
+      return `You're at rank ${ctx.rank}, level ${ctx.level}, on a ${ctx.streak}-day streak. ${ctx.weeksToGoal} weeks to your deadline. Logged ${ctx.today.kcal}/${ctx.today.kcalTarget} kcal today. Keep your deficit under 500 kcal.`;
     }
     if (/workout|exercise|gym|short|quick|time/.test(m)) {
       if (todaysSplit === 'Rest') {
-        return `Today is a rest day — your nervous system is recovering. If you want movement, do 15 min mobility + a 30 min walk. Don't sabotage tomorrow's session.`;
+        return `Today is a rest day. 15 min mobility + 30 min walk. Don't sabotage tomorrow.`;
       }
-      return `Short on time? Cut today's ${todaysSplit} to the top 3 lifts only: ${todaysWorkout.exercises.slice(0, 3).map(e => e.name).join(', ')}. Same rep targets, no accessory work. 80% of the stimulus in 35 min.`;
+      return `Short on time? Top 3 lifts only: ${todaysWorkout.exercises.slice(0, 3).map(e => e.name).join(', ')}. Same rep targets, no accessory work. 80% of the stimulus in 35 min.`;
     }
-    if (/sleep|recover|rest|tired/.test(m)) {
-      return `Recovery is where gains live, hunter. Aim 7.5-8h tonight. Last meal 3h before bed, screens off 30 min before, room cool. Slept under 6h? Drop tomorrow's volume by one set per exercise.`;
+    if (/sleep|recover|tired/.test(m)) {
+      return `Aim 7.5-8h tonight. Last meal 3h before bed, screens off 30 min before, room cool. Under 6h sleep? Drop one set per exercise tomorrow.`;
     }
     if (/cardio|fat|burn/.test(m)) {
-      return `In a cut, low-intensity steady-state beats HIIT for preserving muscle. 30-40 min incline walk (5-7% grade) 3-4x/week. Don't add cardio unless weight loss stalls for 2+ weeks.`;
+      return `In a cut, LISS beats HIIT for preserving muscle. 30-40 min incline walk 3-4x/week. Don't add cardio unless weight loss stalls 2+ weeks.`;
     }
     if (/water|hydrat/.test(m)) {
-      return `Target 3-3.5L water/day on training days. Adds about 10% to perceived energy and helps appetite control during the cut.`;
+      return `Target 3-3.5L water/day on training days. About 10% boost to energy.`;
     }
-    if (/(hi|hello|hey|sup|yo)\b/.test(m)) {
-      return `What's up, ${ctx.username}. You're on ${ctx.today.split} day and you've banked ${ctx.today.kcal}/${ctx.today.kcalTarget} kcal. What do you need?`;
+    if (/^(hi|hello|hey|sup|yo)/.test(m)) {
+      return `What's up, ${ctx.username}. You're on ${ctx.today.split} day, ${ctx.today.kcal}/${ctx.today.kcalTarget} kcal banked. What do you need?`;
     }
-    return `I hear you. Once your backend is wired to OpenAI or Claude, I'll give a real answer with full context (${ctx.username}, rank ${ctx.rank}, ${ctx.streak}-day streak, ${ctx.today.kcal}/${ctx.today.kcalTarget} kcal today, ${weeksLeft} weeks to goal). For now I'm running in stub mode.`;
+    return `I'm in stub mode — running without a real model. Wire your backend at /api/ai/coach and I'll give you real answers using your full context (${ctx.username}, rank ${ctx.rank}, ${ctx.streak}-day streak, ${ctx.today.kcal}/${ctx.today.kcalTarget} kcal, ${weeksLeft} weeks to goal).`;
   }
 
   function addMsg(role, text) {
