@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hunter HQ — SoloFit</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="dash-page">
+
+  <nav class="nav">
+    <a href="home.html" class="logo">
+      <span class="logo-mark"></span>
+      <span>SOLO</span><span>FIT</span>
+    </a>
+    <div class="nav-actions">
+      <span class="sys-label" id="dateLabel" style="letter-spacing:0.18em"></span>
+      <button class="btn btn-ghost" id="logoutBtn" style="padding:0.6rem 1.2rem">Sign out</button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section class="dash-hero fade-up">
+      <div class="dash-hero-inner">
+
+        <!-- Hexagonal avatar -->
+        <div class="hex-avatar">
+          <span class="ring-outer"></span>
+          <span class="ring-mid"></span>
+          <span class="core"></span>
+          <span class="initial" id="avatar">R</span>
+        </div>
+
+        <!-- Info -->
+        <div class="hero-info">
+          <div class="hero-greet">
+            <span class="pulse-dot"></span>
+            <span id="greeting">SYSTEM ONLINE</span>
+          </div>
+          <h1 class="hero-name">
+            Welcome back,
+            <span class="accent" id="hunterName">Hunter</span>
+          </h1>
+          <p class="hero-subline" id="heroSub">
+            You're <strong id="weeksLeft">10 weeks</strong> from your July 26 deadline. Stay sharp.
+          </p>
+          <div class="hunter-tags">
+            <span class="tag gold" id="rankTag">RANK B</span>
+            <span class="tag cyan" id="streakTag">⚡ 14 DAY STREAK</span>
+            <span class="tag" id="splitTag">LEG DAY</span>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="hunter-actions">
+          <button class="icon-btn" title="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </button>
+          <button class="icon-btn" title="Settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- XP track -->
+      <div class="xp-track">
+        <span class="corner-tr"></span>
+        <span class="corner-bl"></span>
+        <span class="xp-lvl" id="lvlLabel">LVL 14</span>
+        <div class="xp-bar"><div class="fill" id="xpFill" style="width:62%"></div></div>
+        <span class="xp-num" id="xpLabel">620 <span class="total">/ 1000 XP</span></span>
+      </div>
+    </section>
+
+    <!-- ============ QUICK STATS ============ -->
+    <section class="quick-stats fade-up delay-1">
+      <div class="quick-stat blue">
+        <div class="qs-label">Hunter level</div>
+        <div class="qs-num" id="qsLevel">14</div>
+      </div>
+      <div class="quick-stat cyan">
+        <div class="qs-label">Active streak</div>
+        <div class="qs-num"><span class="icon">⚡</span><span id="qsStreak">14</span><span class="unit">days</span></div>
+      </div>
+      <div class="quick-stat gold">
+        <div class="qs-label">Body weight</div>
+        <div class="qs-num"><span id="qsWeight">81.4</span><span class="unit">kg</span></div>
+        <div class="qs-delta" id="qsDelta">↘ down 1.0kg this week</div>
+      </div>
+      <div class="quick-stat blue">
+        <div class="qs-label">To deadline</div>
+        <div class="qs-num"><span id="qsWeeks">10</span><span class="unit">weeks</span></div>
+      </div>
+    </section>
+
+    <!-- ============ MAIN GRID ============ -->
+    <div class="dash-grid">
+
+      <!-- TODAY'S WORKOUT - hero card -->
+      <div class="dash-panel hero-panel span-12 fade-up delay-2">
+        <span class="corner-tr"></span><span class="corner-bl"></span>
+
+        <div class="panel-head">
+          <div class="head-left">
+            <span class="sys-label">▸ Daily quest</span>
+            <h2 id="workoutHeading">
+              <span class="marker">⟁</span> <span id="workoutName">Leg Day</span>
+            </h2>
+          </div>
+          <div class="head-right" id="workoutTag">6 EXERCISES · ~50 MIN</div>
+        </div>
+
+        <div class="workout-meta">
+          <div class="wm"><span class="k">Difficulty</span><div class="v">B-rank</div></div>
+          <div class="wm"><span class="k">Volume</span><div class="v" id="wmVolume">22 sets</div></div>
+          <div class="wm"><span class="k">Reward</span><div class="v">+110 XP</div></div>
+        </div>
+
+        <ul class="exercise-list" id="exerciseList"></ul>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="dash-divider">
+        <span class="line"></span>
+        <span class="lbl">⟁ Hunter telemetry</span>
+        <span class="line"></span>
+      </div>
+
+      <!-- STATS -->
+      <div class="dash-panel span-5 fade-up delay-3">
+        <span class="corner-tr"></span><span class="corner-bl"></span>
+        <div class="panel-head">
+          <div class="head-left">
+            <span class="sys-label">◇ Attributes</span>
+            <h2><span class="marker">◇</span> Hunter stats</h2>
+          </div>
+          <div class="head-right live">Live</div>
+        </div>
+        <div class="stat-grid" id="statGrid"></div>
+      </div>
+
+      <!-- AI COACH -->
+      <div class="dash-panel coach-panel span-7 fade-up delay-4">
+        <span class="corner-tr"></span><span class="corner-bl"></span>
+        <div class="panel-head">
+          <div class="head-left">
+            <span class="sys-label">⟁ System terminal</span>
+            <h2><span class="marker">⟁</span> AI Coach</h2>
+          </div>
+          <div class="head-right live">Online</div>
+        </div>
+
+        <div class="coach-log" id="coachLog">
+          <div class="msg ai">
+            <span class="msg-label">⟁ System message</span>
+            Welcome back, hunter. I've reviewed today's quest and your macros. Want a meal suggestion, a form check, or a progress read?
+          </div>
+        </div>
+
+        <div class="coach-suggest">
+          <button class="suggest-chip" data-prompt="Suggest a halal high-protein meal under 500 kcal">Suggest a meal</button>
+          <button class="suggest-chip" data-prompt="How am I doing this week?">Progress check</button>
+          <button class="suggest-chip" data-prompt="Adjust today's workout if I'm short on time">Quick workout</button>
+        </div>
+
+        <form class="coach-input" id="coachForm">
+          <input type="text" id="coachInput" placeholder="Ask the system..." autocomplete="off" />
+          <button type="submit" class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="dash-divider">
+        <span class="line"></span>
+        <span class="lbl">▣ Nutrition codex</span>
+        <span class="line"></span>
+      </div>
+
+      <!-- NUTRITION -->
+      <div class="dash-panel span-12 fade-up delay-5">
+        <span class="corner-tr"></span><span class="corner-bl"></span>
+        <div class="panel-head">
+          <div class="head-left">
+            <span class="sys-label">▣ Today's intake</span>
+            <h2><span class="marker">▣</span> Nutrition</h2>
+          </div>
+          <div class="head-right">CUT PHASE · WEEK <span id="cutWeek">3</span></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:center;">
+
+          <!-- Ring -->
+          <div class="kcal-summary">
+            <div class="kcal-ring">
+              <svg viewBox="0 0 200 200">
+                <defs>
+                  <linearGradient id="kcalRingGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#6fe3ff"/>
+                    <stop offset="100%" stop-color="#5b9dff"/>
+                  </linearGradient>
+                </defs>
+                <circle class="ring-bg" cx="100" cy="100" r="88"/>
+                <circle class="ring-fill" id="kcalRing" cx="100" cy="100" r="88"
+                  stroke-dasharray="552.92" stroke-dashoffset="552.92"/>
+              </svg>
+              <div class="kcal-center">
+                <div class="num" id="kcalNow">0</div>
+                <div class="of">of <span id="kcalTarget">2200</span></div>
+                <div class="lbl">⟁ Kcal today</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Macros + Add -->
+          <div>
+            <div class="macro-grid">
+              <div class="macro p">
+                <div class="m-name">Protein</div>
+                <div class="m-val"><span id="pNow">0</span><span class="of">/<span id="pTarget">180</span>g</span></div>
+                <div class="m-bar"><div class="fill" id="pBar"></div></div>
+              </div>
+              <div class="macro c">
+                <div class="m-name">Carbs</div>
+                <div class="m-val"><span id="cNow">0</span><span class="of">/<span id="cTarget">220</span>g</span></div>
+                <div class="m-bar"><div class="fill" id="cBar"></div></div>
+              </div>
+              <div class="macro f">
+                <div class="m-name">Fats</div>
+                <div class="m-val"><span id="fNow">0</span><span class="of">/<span id="fTarget">70</span>g</span></div>
+                <div class="m-bar"><div class="fill" id="fBar"></div></div>
+              </div>
+            </div>
+
+            <form class="add-meal" id="addMealForm">
+              <input type="text" id="mealInput" placeholder="Log a meal — e.g. '200g chicken breast' or '2 eggs'" autocomplete="off" />
+              <button type="submit" class="btn btn-primary">Log meal</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="dash-divider">
+        <span class="line"></span>
+        <span class="lbl">◢ Ascension chart</span>
+        <span class="line"></span>
+      </div>
+
+      <!-- WEEKLY PROGRESS -->
+      <div class="dash-panel span-12 fade-up delay-5">
+        <span class="corner-tr"></span><span class="corner-bl"></span>
+        <div class="panel-head">
+          <div class="head-left">
+            <span class="sys-label">◢ Last 7 days</span>
+            <h2><span class="marker">◢</span> Weekly progression</h2>
+          </div>
+          <div class="head-right">BODYWEIGHT × KCAL</div>
+        </div>
+        <div class="chart-wrap">
+          <svg class="chart-svg" id="chart" viewBox="0 0 700 260" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="chart-legend">
+          <span><span class="legend-dot weight"></span>Bodyweight (kg)</span>
+          <span><span class="legend-dot kcal"></span>Calories</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast" id="toast">
+    <span class="toast-label">⟁ System</span>
+    <span id="toast-text"></span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
