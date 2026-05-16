@@ -15,7 +15,6 @@
     </a>
     <div class="nav-actions">
       <span class="sys-label" id="dateLabel" style="letter-spacing:0.18em"></span>
-      <a href="profile.html" class="btn btn-ghost" style="padding:0.6rem 1.2rem">Profile</a>
       <button class="btn btn-ghost" id="logoutBtn" style="padding:0.6rem 1.2rem">Sign out</button>
     </div>
   </nav>
@@ -114,16 +113,9 @@
         </div>
 
         <div class="workout-meta">
-          <div class="wm"><span class="k">Difficulty</span><div class="v" id="wmDifficulty">B-rank</div></div>
+          <div class="wm"><span class="k">Difficulty</span><div class="v">B-rank</div></div>
           <div class="wm"><span class="k">Volume</span><div class="v" id="wmVolume">22 sets</div></div>
           <div class="wm"><span class="k">Reward</span><div class="v">+110 XP</div></div>
-        </div>
-
-        <div class="day-picker" id="dayPicker">
-          <button class="day-btn" data-day="Push">Push</button>
-          <button class="day-btn" data-day="Pull">Pull</button>
-          <button class="day-btn" data-day="Legs">Legs</button>
-          <button class="day-btn" data-day="Rest">Rest</button>
         </div>
 
         <ul class="exercise-list" id="exerciseList"></ul>
@@ -250,14 +242,6 @@
               <input type="text" id="mealInput" placeholder="Log a meal — e.g. '200g chicken breast' or '2 eggs'" autocomplete="off" />
               <button type="submit" class="btn btn-primary">Log meal</button>
             </form>
-
-            <div class="meal-log">
-              <div class="meal-log-head">
-                <span>⟁ Today's intake log</span>
-                <span class="count" id="mealCount">0 items</span>
-              </div>
-              <ul class="meal-list" id="mealList"></ul>
-            </div>
           </div>
         </div>
       </div>
