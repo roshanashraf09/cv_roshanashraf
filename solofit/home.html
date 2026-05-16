@@ -149,32 +149,32 @@
         <div class="stat-grid" id="statGrid"></div>
       </div>
 
-      <!-- AI COACH -->
+      <!-- AI HUNTER CODEX -->
       <div class="dash-panel coach-panel span-7 fade-up delay-4">
         <span class="corner-tr"></span><span class="corner-bl"></span>
         <div class="panel-head">
           <div class="head-left">
-            <span class="sys-label">⟁ System terminal</span>
-            <h2><span class="marker">⟁</span> AI Coach</h2>
+            <span class="sys-label">⟁ Hunter Codex</span>
+            <h2><span class="marker">⟁</span> AI Hunter Codex</h2>
           </div>
           <div class="head-right live">Online</div>
         </div>
 
         <div class="coach-log" id="coachLog">
           <div class="msg ai">
-            <span class="msg-label">⟁ System message</span>
-            Welcome back, hunter. I've reviewed today's quest and your macros. Want a meal suggestion, a form check, or a progress read?
+            <span class="msg-label">⟁ Codex</span>
+            Hunter online. Tell me what you ate, what workout you completed, or ask for guidance. I'll log it and update your stats in real time.
           </div>
         </div>
 
         <div class="coach-suggest">
-          <button class="suggest-chip" data-prompt="Suggest a halal high-protein meal under 500 kcal">Suggest a meal</button>
+          <button class="suggest-chip" data-prompt="I ate 200g chicken breast and 150g rice">Log a meal</button>
+          <button class="suggest-chip" data-prompt="I went for a 30 minute run">Log cardio</button>
           <button class="suggest-chip" data-prompt="How am I doing this week?">Progress check</button>
-          <button class="suggest-chip" data-prompt="Adjust today's workout if I'm short on time">Quick workout</button>
         </div>
 
         <form class="coach-input" id="coachForm">
-          <input type="text" id="coachInput" placeholder="Ask the system..." autocomplete="off" />
+          <input type="text" id="coachInput" placeholder="Tell the codex what you ate or did..." autocomplete="off" />
           <button type="submit" class="btn btn-primary">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
@@ -221,6 +221,7 @@
                 <div class="num" id="kcalNow">0</div>
                 <div class="of">of <span id="kcalTarget">2200</span></div>
                 <div class="lbl">⟁ Kcal today</div>
+                <div class="lbl" id="kcalBurned" style="display:none;color:var(--cyan);margin-top:4px"></div>
               </div>
             </div>
           </div>

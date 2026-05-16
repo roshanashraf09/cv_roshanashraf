@@ -54,7 +54,7 @@
       },
       stats: { STR: 10, END: 10, AGI: 10, VIT: 10, INT: 10, PER: 10 },
       targets: { kcal: 2200, protein: 180, carbs: 220, fats: 70 },
-      today: { date: todayISO(), workout: {}, meals: [], dayOverride: null },
+      today: { date: todayISO(), workout: {}, meals: [], dayOverride: null, caloriesBurned: 0 },
       achievements: [],
       week: [
         { d: 'Mon', kg: null, kcal: 0 },
@@ -415,7 +415,7 @@
 
   // Reset today's workout/meals if date changed
   if (state.today.date !== todayISO()) {
-    state.today = { date: todayISO(), workout: {}, meals: [], dayOverride: state.today.dayOverride || null };
+    state.today = { date: todayISO(), workout: {}, meals: [], dayOverride: state.today.dayOverride || null, caloriesBurned: 0 };
     saveState(state);
   }
 
@@ -626,22 +626,41 @@
   renderStats();
 
   // ---------- MACROS / NUTRITION ----------
-  // Tiny food DB so meal logging feels real. Values per portion noted.
   const FOOD_DB = [
-    { match: /chicken breast/i, base: { kcal: 165, p: 31, c: 0,  f: 3.6 }, per: 100 },
-    { match: /salmon/i,         base: { kcal: 208, p: 20, c: 0,  f: 13 },  per: 100 },
-    { match: /beef|steak/i,     base: { kcal: 250, p: 26, c: 0,  f: 15 },  per: 100 },
-    { match: /lamb/i,           base: { kcal: 294, p: 25, c: 0,  f: 21 },  per: 100 },
-    { match: /egg/i,            base: { kcal: 78,  p: 6,  c: 0.6,f: 5 },   per: 1, unit: 'egg' },
-    { match: /rice/i,           base: { kcal: 130, p: 2.7,c: 28, f: 0.3 }, per: 100 },
-    { match: /oats|oat/i,       base: { kcal: 389, p: 17, c: 66, f: 7 },   per: 100 },
-    { match: /banana/i,         base: { kcal: 105, p: 1.3,c: 27, f: 0.4 }, per: 1, unit: 'banana' },
-    { match: /apple/i,          base: { kcal: 95,  p: 0.5,c: 25, f: 0.3 }, per: 1, unit: 'apple' },
-    { match: /whey|protein shake/i, base: { kcal: 120, p: 24, c: 3, f: 1.5 }, per: 1, unit: 'scoop' },
-    { match: /almond/i,         base: { kcal: 579, p: 21, c: 22, f: 50 },  per: 100 },
-    { match: /yogurt|yoghurt/i, base: { kcal: 59,  p: 10, c: 3.6,f: 0.4 }, per: 100 },
-    { match: /sweet potato/i,   base: { kcal: 86,  p: 1.6,c: 20, f: 0.1 }, per: 100 },
-    { match: /pineapple/i,      base: { kcal: 50,  p: 0.5,c: 13, f: 0.1 }, per: 100 }
+    { match: /chicken breast/i,     base: { kcal: 165, p: 31,  c: 0,   f: 3.6 }, per: 100 },
+    { match: /chicken thigh/i,      base: { kcal: 209, p: 26,  c: 0,   f: 11  }, per: 100 },
+    { match: /chicken/i,            base: { kcal: 165, p: 31,  c: 0,   f: 3.6 }, per: 100 },
+    { match: /salmon/i,             base: { kcal: 208, p: 20,  c: 0,   f: 13  }, per: 100 },
+    { match: /tuna/i,               base: { kcal: 116, p: 26,  c: 0,   f: 1   }, per: 100 },
+    { match: /beef|steak/i,         base: { kcal: 250, p: 26,  c: 0,   f: 15  }, per: 100 },
+    { match: /lamb/i,               base: { kcal: 294, p: 25,  c: 0,   f: 21  }, per: 100 },
+    { match: /turkey/i,             base: { kcal: 189, p: 29,  c: 0,   f: 7   }, per: 100 },
+    { match: /egg/i,                base: { kcal: 78,  p: 6,   c: 0.6, f: 5   }, per: 1,   unit: 'egg' },
+    { match: /milk/i,               base: { kcal: 61,  p: 3.2, c: 4.8, f: 3.3 }, per: 100 },
+    { match: /cheese/i,             base: { kcal: 402, p: 25,  c: 1.3, f: 33  }, per: 100 },
+    { match: /greek yogurt|greek yoghurt/i, base: { kcal: 59, p: 10, c: 3.6, f: 0.4 }, per: 100 },
+    { match: /yogurt|yoghurt/i,     base: { kcal: 59,  p: 10,  c: 3.6, f: 0.4 }, per: 100 },
+    { match: /white rice|basmati|rice/i, base: { kcal: 130, p: 2.7, c: 28, f: 0.3 }, per: 100 },
+    { match: /pasta/i,              base: { kcal: 158, p: 5.8, c: 31,  f: 0.9 }, per: 100 },
+    { match: /bread/i,              base: { kcal: 79,  p: 2.7, c: 15,  f: 1   }, per: 1,   unit: 'slice' },
+    { match: /oats|oat/i,           base: { kcal: 389, p: 17,  c: 66,  f: 7   }, per: 100 },
+    { match: /lentils|lentil/i,     base: { kcal: 116, p: 9,   c: 20,  f: 0.4 }, per: 100 },
+    { match: /hummus/i,             base: { kcal: 177, p: 8,   c: 20,  f: 8   }, per: 100 },
+    { match: /quinoa/i,             base: { kcal: 120, p: 4.4, c: 21,  f: 1.9 }, per: 100 },
+    { match: /sweet potato/i,       base: { kcal: 86,  p: 1.6, c: 20,  f: 0.1 }, per: 100 },
+    { match: /potato/i,             base: { kcal: 77,  p: 2,   c: 17,  f: 0.1 }, per: 100 },
+    { match: /broccoli/i,           base: { kcal: 34,  p: 2.8, c: 7,   f: 0.4 }, per: 100 },
+    { match: /avocado/i,            base: { kcal: 160, p: 2,   c: 9,   f: 15  }, per: 100 },
+    { match: /banana/i,             base: { kcal: 105, p: 1.3, c: 27,  f: 0.4 }, per: 1,   unit: 'banana' },
+    { match: /apple/i,              base: { kcal: 95,  p: 0.5, c: 25,  f: 0.3 }, per: 1,   unit: 'apple' },
+    { match: /orange/i,             base: { kcal: 62,  p: 1.2, c: 15,  f: 0.2 }, per: 1,   unit: 'orange' },
+    { match: /date|dates/i,         base: { kcal: 282, p: 2.5, c: 75,  f: 0.4 }, per: 100 },
+    { match: /pineapple/i,          base: { kcal: 50,  p: 0.5, c: 13,  f: 0.1 }, per: 100 },
+    { match: /almond/i,             base: { kcal: 579, p: 21,  c: 22,  f: 50  }, per: 100 },
+    { match: /peanut butter/i,      base: { kcal: 588, p: 25,  c: 20,  f: 50  }, per: 100 },
+    { match: /whey|protein shake|protein powder/i, base: { kcal: 120, p: 24, c: 3, f: 1.5 }, per: 1, unit: 'scoop' },
+    { match: /pizza/i,              base: { kcal: 266, p: 11,  c: 33,  f: 10  }, per: 1,   unit: 'slice' },
+    { match: /burger/i,             base: { kcal: 295, p: 17,  c: 24,  f: 14  }, per: 1,   unit: 'burger' }
   ];
 
   function parseMeal(text) {
@@ -688,6 +707,17 @@
       const pct = Math.min(1, t.kcal / tg.kcal);
       ring.setAttribute('stroke-dasharray', C);
       ring.setAttribute('stroke-dashoffset', C * (1 - pct));
+    }
+
+    const burned = state.today.caloriesBurned || 0;
+    const burnedEl = $('kcalBurned');
+    if (burnedEl) {
+      if (burned > 0) {
+        burnedEl.style.display = '';
+        burnedEl.textContent = '▲ ' + burned + ' kcal burned';
+      } else {
+        burnedEl.style.display = 'none';
+      }
     }
 
     const todayIdx = (new Date().getDay() + 6) % 7;
@@ -752,7 +782,96 @@
     showToast('+' + meal.kcal + ' kcal logged · +2 XP');
   });
 
-  // ---------- AI COACH ----------
+  // ---------- AI HUNTER CODEX ----------
+
+  const CARDIO_DB = [
+    { match: /\brun(?:ning)?\b|\bjog(?:ging)?\b/,        kcalPerMin: 10, xpPerMin: 0.8, stat: 'AGI', name: 'Run' },
+    { match: /\bwalk(?:ing)?\b/,                          kcalPerMin: 4.5, xpPerMin: 0.4, stat: 'END', name: 'Walk' },
+    { match: /\bcycl(?:e|ing)?\b|\bbik(?:e|ing)?\b/,     kcalPerMin: 8,  xpPerMin: 0.6, stat: 'AGI', name: 'Cycle' },
+    { match: /\bswim(?:ming)?\b/,                         kcalPerMin: 9,  xpPerMin: 0.7, stat: 'END', name: 'Swim' },
+    { match: /\bhiit\b|\bhigh.intensity\b|\binterval\b/,  kcalPerMin: 12, xpPerMin: 1.0, stat: 'STR', name: 'HIIT' },
+    { match: /\byoga\b|\bstretch(?:ing)?\b|\bmobility\b/, kcalPerMin: 3,  xpPerMin: 0.3, stat: 'VIT', name: 'Yoga' },
+    { match: /\brow(?:ing)?\b/,                           kcalPerMin: 9,  xpPerMin: 0.7, stat: 'STR', name: 'Row' },
+    { match: /\bjump(?:ing)? rope\b|\bskip(?:ping)?\b/,   kcalPerMin: 11, xpPerMin: 0.9, stat: 'AGI', name: 'Jump Rope' },
+    { match: /\bdeadlift\b/,                              kcalPerMin: 8,  xpPerMin: 0.8, stat: 'STR', name: 'Deadlift session' },
+    { match: /\bsquat\b/,                                 kcalPerMin: 8,  xpPerMin: 0.8, stat: 'STR', name: 'Squat session' }
+  ];
+
+  function parseFoodFromChat(message) {
+    const m = message.toLowerCase();
+    let meal = parseMeal(m);
+    if (meal) return meal;
+
+    const patterns = [
+      /(?:ate|had|consumed|eaten|eating|having|finished)\s+(.+)/,
+      /(?:just had|just ate|just finished)\s+(.+)/,
+      /(?:for (?:breakfast|lunch|dinner|snack))[^,]*[,:]\s*(.+)/,
+      /(?:breakfast|lunch|dinner|snack) was\s+(.+)/
+    ];
+    for (const pat of patterns) {
+      const match = m.match(pat);
+      if (match) {
+        meal = parseMeal(match[1]);
+        if (meal) {
+          meal.text = match[1].trim().replace(/^\w/, c => c.toUpperCase());
+          return meal;
+        }
+      }
+    }
+    return null;
+  }
+
+  function parseCardioFromChat(message) {
+    const m = message.toLowerCase();
+    const cardio = CARDIO_DB.find(c => c.match.test(m));
+    if (!cardio) return null;
+
+    const minMatch  = m.match(/(\d+)\s*(?:min(?:utes?)?)/);
+    const hrMatch   = m.match(/(\d+)\s*(?:h(?:ours?|rs?)?)/);
+    const kmMatch   = m.match(/(\d+(?:\.\d+)?)\s*km/);
+    const miMatch   = m.match(/(\d+(?:\.\d+)?)\s*miles?/);
+
+    let mins = 0;
+    if (minMatch) mins = parseInt(minMatch[1]);
+    if (hrMatch)  mins += parseInt(hrMatch[1]) * 60;
+    if (kmMatch && !mins) mins = Math.round(parseFloat(kmMatch[1]) * 6);
+    if (miMatch && !mins) mins = Math.round(parseFloat(miMatch[1]) * 9.7);
+    if (!mins) mins = 30;
+
+    return {
+      cardio,
+      mins,
+      burned: Math.round(cardio.kcalPerMin * mins),
+      xp: Math.max(5, Math.round(cardio.xpPerMin * mins))
+    };
+  }
+
+  function parseWeightFromChat(message) {
+    const m = message.toLowerCase();
+    const match = m.match(/(?:i\s+)?weigh\s+(\d+(?:\.\d+)?)\s*kg|(?:my\s+)?weight(?:\s+is)?\s+(\d+(?:\.\d+)?)\s*kg|(\d+(?:\.\d+)?)\s*kg\s+(?:today|now|this morning)/);
+    if (!match) return null;
+    return parseFloat(match[1] || match[2] || match[3]);
+  }
+
+  function buildTrackedResponse(tracked) {
+    const parts = [];
+    for (const t of tracked) {
+      if (t.type === 'meal') {
+        const remaining = Math.max(0, state.targets.kcal - totals().kcal);
+        parts.push(`Logged: ${t.meal.text}. +${t.meal.kcal} kcal | ${t.meal.p}g P · ${t.meal.c}g C · ${t.meal.f}g F. ${remaining} kcal remaining in your budget. +2 XP.`);
+      }
+      if (t.type === 'cardio') {
+        parts.push(`${t.cardio.name} logged: ${t.mins} min · ~${t.burned} kcal burned · +${t.xp} XP · ${t.cardio.stat} stat boosted.`);
+      }
+      if (t.type === 'weight') {
+        const delta = state.user.goalWeight ? (t.kg - state.user.goalWeight).toFixed(1) : null;
+        const dir = delta !== null ? ` ${Math.abs(delta)} kg ${parseFloat(delta) > 0 ? 'above' : 'below'} goal.` : '';
+        parts.push(`Weight logged: ${t.kg} kg.${dir} Chart updated.`);
+      }
+    }
+    return parts.join('\n\n');
+  }
+
   function getUserContext() {
     const t = totals();
     return {
@@ -835,7 +954,7 @@
     if (/^(hi|hello|hey|sup|yo)/.test(m)) {
       return `What's up, ${ctx.username}. You're on ${ctx.today.split} day, ${ctx.today.kcal}/${ctx.today.kcalTarget} kcal banked. What do you need?`;
     }
-    return `I'm in stub mode — running without a real model. Wire your backend at /api/ai/coach and I'll give you real answers using your full context (${ctx.username}, rank ${ctx.rank}, ${ctx.streak}-day streak, ${ctx.today.kcal}/${ctx.today.kcalTarget} kcal, ${weeksLeft} weeks to goal).`;
+    return `Codex is running in offline mode. Wire your backend at /api/ai/coach for a live model. Current status: ${ctx.username} · rank ${ctx.rank} · ${ctx.streak}-day streak · ${ctx.today.kcal}/${ctx.today.kcalTarget} kcal logged · ${weeksLeft} weeks to goal. You can still tell me what you ate or what workout you did and I'll track it.`;
   }
 
   function addMsg(role, text) {
@@ -845,7 +964,7 @@
     if (role === 'ai') {
       const lbl = document.createElement('span');
       lbl.className = 'msg-label';
-      lbl.textContent = 'System';
+      lbl.textContent = '⟁ Codex';
       div.appendChild(lbl);
       div.appendChild(document.createTextNode(text));
     } else {
@@ -870,13 +989,58 @@
     if (!message.trim()) return;
     addMsg('user', message);
     const typing = addTyping();
+
     try {
-      const reply = await askCoach(message);
+      const tracked = [];
+
+      // Try to log food
+      const meal = parseFoodFromChat(message);
+      if (meal) {
+        state.today.meals.push(meal);
+        state.user.mealsLogged = (state.user.mealsLogged || 0) + 1;
+        saveState(state);
+        renderMacros();
+        awardXp(2, 'meal logged via codex');
+        tracked.push({ type: 'meal', meal });
+      }
+
+      // Try to log cardio
+      const activity = parseCardioFromChat(message);
+      if (activity) {
+        state.today.caloriesBurned = (state.today.caloriesBurned || 0) + activity.burned;
+        state.stats[activity.cardio.stat] = Math.min(100, (state.stats[activity.cardio.stat] || 10) + 2);
+        saveState(state);
+        awardXp(activity.xp, 'cardio logged via codex');
+        renderStats();
+        renderMacros();
+        tracked.push({ type: 'cardio', ...activity });
+      }
+
+      // Try to log weight
+      const kg = parseWeightFromChat(message);
+      if (kg) {
+        state.user.weight = kg;
+        const todayIdx = (new Date().getDay() + 6) % 7;
+        state.week[todayIdx].kg = kg;
+        saveState(state);
+        drawChart();
+        tracked.push({ type: 'weight', kg });
+      }
+
+      let reply;
+      if (tracked.length > 0) {
+        // Small delay to feel natural, then return tracked summary
+        await new Promise(r => setTimeout(r, 400 + Math.random() * 300));
+        reply = buildTrackedResponse(tracked);
+      } else {
+        reply = await askCoach(message);
+      }
+
       typing.remove();
       addMsg('ai', reply);
     } catch (err) {
       typing.remove();
-      addMsg('ai', "System offline. Couldn't reach the coach. Try again in a moment.");
+      addMsg('ai', "System offline. Couldn't reach the codex. Try again in a moment.");
     }
   }
 
