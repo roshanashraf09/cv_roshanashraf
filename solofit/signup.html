@@ -28,7 +28,13 @@
 
       <form id="signupForm" novalidate>
         <div class="field">
-          <label for="username">Choose a username</label>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="hunter@example.com" autocomplete="email" required />
+          <div class="field-msg" id="email-msg"></div>
+        </div>
+
+        <div class="field">
+          <label for="username">Hunter handle</label>
           <input type="text" id="username" name="username" placeholder="shadow_monarch" autocomplete="username" minlength="3" maxlength="24" required />
           <div class="field-msg" id="username-msg"></div>
         </div>
@@ -75,6 +81,9 @@
     <span id="toast-text">Awakening successful. Welcome, hunter.</span>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="firebase-init.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

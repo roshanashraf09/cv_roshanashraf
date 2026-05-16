@@ -28,9 +28,9 @@
 
       <form id="loginForm" novalidate>
         <div class="field">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" placeholder="hunter_handle" autocomplete="username" required />
-          <div class="field-msg" id="username-msg"></div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="hunter@example.com" autocomplete="email" required />
+          <div class="field-msg" id="email-msg"></div>
         </div>
 
         <div class="field">
@@ -67,6 +67,9 @@
     <span id="toast-text">Welcome back, hunter.</span>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="firebase-init.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

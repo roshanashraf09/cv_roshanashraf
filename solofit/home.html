@@ -15,6 +15,7 @@
     </a>
     <div class="nav-actions">
       <span class="sys-label" id="dateLabel" style="letter-spacing:0.18em"></span>
+      <a href="profile.html" class="btn btn-ghost" style="padding:0.6rem 1.2rem">Profile</a>
       <button class="btn btn-ghost" id="logoutBtn" style="padding:0.6rem 1.2rem">Sign out</button>
     </div>
   </nav>
@@ -113,9 +114,16 @@
         </div>
 
         <div class="workout-meta">
-          <div class="wm"><span class="k">Difficulty</span><div class="v">B-rank</div></div>
+          <div class="wm"><span class="k">Difficulty</span><div class="v" id="wmDifficulty">B-rank</div></div>
           <div class="wm"><span class="k">Volume</span><div class="v" id="wmVolume">22 sets</div></div>
           <div class="wm"><span class="k">Reward</span><div class="v">+110 XP</div></div>
+        </div>
+
+        <div class="day-picker" id="dayPicker">
+          <button class="day-btn" data-day="Push">Push</button>
+          <button class="day-btn" data-day="Pull">Pull</button>
+          <button class="day-btn" data-day="Legs">Legs</button>
+          <button class="day-btn" data-day="Rest">Rest</button>
         </div>
 
         <ul class="exercise-list" id="exerciseList"></ul>
@@ -141,32 +149,32 @@
         <div class="stat-grid" id="statGrid"></div>
       </div>
 
-      <!-- AI HUNTER CODEX -->
+      <!-- AI COACH -->
       <div class="dash-panel coach-panel span-7 fade-up delay-4">
         <span class="corner-tr"></span><span class="corner-bl"></span>
         <div class="panel-head">
           <div class="head-left">
-            <span class="sys-label">⟁ Hunter Codex</span>
-            <h2><span class="marker">⟁</span> AI Hunter Codex</h2>
+            <span class="sys-label">⟁ System terminal</span>
+            <h2><span class="marker">⟁</span> AI Coach</h2>
           </div>
           <div class="head-right live">Online</div>
         </div>
 
         <div class="coach-log" id="coachLog">
           <div class="msg ai">
-            <span class="msg-label">⟁ Codex</span>
-            Hunter online. Tell me what you ate, what workout you completed, or ask for guidance. I'll log it and update your stats in real time.
+            <span class="msg-label">⟁ System message</span>
+            Welcome back, hunter. I've reviewed today's quest and your macros. Want a meal suggestion, a form check, or a progress read?
           </div>
         </div>
 
         <div class="coach-suggest">
-          <button class="suggest-chip" data-prompt="I ate 200g chicken breast and 150g rice">Log a meal</button>
-          <button class="suggest-chip" data-prompt="I went for a 30 minute run">Log cardio</button>
+          <button class="suggest-chip" data-prompt="Suggest a halal high-protein meal under 500 kcal">Suggest a meal</button>
           <button class="suggest-chip" data-prompt="How am I doing this week?">Progress check</button>
+          <button class="suggest-chip" data-prompt="Adjust today's workout if I'm short on time">Quick workout</button>
         </div>
 
         <form class="coach-input" id="coachForm">
-          <input type="text" id="coachInput" placeholder="Tell the codex what you ate or did..." autocomplete="off" />
+          <input type="text" id="coachInput" placeholder="Ask the system..." autocomplete="off" />
           <button type="submit" class="btn btn-primary">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
@@ -213,7 +221,6 @@
                 <div class="num" id="kcalNow">0</div>
                 <div class="of">of <span id="kcalTarget">2200</span></div>
                 <div class="lbl">⟁ Kcal today</div>
-                <div class="lbl" id="kcalBurned" style="display:none;color:var(--cyan);margin-top:4px"></div>
               </div>
             </div>
           </div>
@@ -242,6 +249,14 @@
               <input type="text" id="mealInput" placeholder="Log a meal — e.g. '200g chicken breast' or '2 eggs'" autocomplete="off" />
               <button type="submit" class="btn btn-primary">Log meal</button>
             </form>
+
+            <div class="meal-log">
+              <div class="meal-log-head">
+                <span>⟁ Today's intake log</span>
+                <span class="count" id="mealCount">0 items</span>
+              </div>
+              <ul class="meal-list" id="mealList"></ul>
+            </div>
           </div>
         </div>
       </div>
@@ -280,6 +295,9 @@
     <span id="toast-text"></span>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="firebase-init.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

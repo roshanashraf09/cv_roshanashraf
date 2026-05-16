@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hunter profile — SoloFit</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="profile-page dash-page">
+
+  <nav class="nav">
+    <a href="home.html" class="logo">
+      <span class="logo-mark"></span>
+      <span>SOLO</span><span>FIT</span>
+    </a>
+    <div class="nav-actions">
+      <a href="home.html" class="btn btn-ghost" style="padding:0.6rem 1.2rem">← Dashboard</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="profile-head fade-up">
+      <span class="sys-label">⟁ Hunter codex</span>
+      <h1>Your <span class="accent">profile</span></h1>
+      <p>The system requires your stats to calibrate your training.</p>
+    </div>
+
+    <form id="profileForm">
+      <div class="profile-grid">
+
+        <!-- Identity card -->
+        <div class="profile-card fade-up delay-1">
+          <span class="corner-tr"></span><span class="corner-bl"></span>
+          <h2><span class="marker">⟁</span> Identity</h2>
+          <div class="profile-row single">
+            <div class="field">
+              <label for="username">Hunter handle</label>
+              <input type="text" id="username" name="username" />
+              <div class="field-msg" id="username-msg"></div>
+            </div>
+          </div>
+          <div class="profile-row">
+            <div class="field">
+              <label for="age">Age</label>
+              <input type="number" id="age" name="age" min="13" max="99" placeholder="—" />
+              <div class="field-msg" id="age-msg"></div>
+            </div>
+            <div class="field">
+              <label for="gender">Gender</label>
+              <input type="text" id="gender" name="gender" placeholder="—" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Rank card -->
+        <div class="profile-card fade-up delay-1">
+          <span class="corner-tr"></span><span class="corner-bl"></span>
+          <h2><span class="marker">◇</span> Rank</h2>
+          <div class="rank-ring">
+            <div class="ring">
+              <svg viewBox="0 0 120 120">
+                <defs>
+                  <linearGradient id="rankRingGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#6fe3ff"/>
+                    <stop offset="100%" stop-color="#5b9dff"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(91,157,255,0.1)" stroke-width="4"/>
+                <circle id="rankRingFill" cx="60" cy="60" r="52" fill="none" stroke="url(#rankRingGrad)"
+                  stroke-width="4" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="200"
+                  style="filter: drop-shadow(0 0 8px rgba(91,157,255,0.6))"/>
+              </svg>
+              <span class="letter" id="rankLetter">E</span>
+            </div>
+            <div class="label" id="rankLabel">Awakened</div>
+            <div class="next" id="rankNext"><strong>0</strong> XP to D-rank</div>
+          </div>
+        </div>
+
+        <!-- Body stats -->
+        <div class="profile-card fade-up delay-2">
+          <span class="corner-tr"></span><span class="corner-bl"></span>
+          <h2><span class="marker">▣</span> Body composition</h2>
+          <div class="profile-row">
+            <div class="field">
+              <label for="height">Height (cm)</label>
+              <input type="number" id="height" name="height" min="100" max="250" step="0.5" placeholder="—" />
+            </div>
+            <div class="field">
+              <label for="weight">Weight (kg)</label>
+              <input type="number" id="weight" name="weight" min="30" max="250" step="0.1" placeholder="—" />
+            </div>
+          </div>
+          <div class="profile-row">
+            <div class="field">
+              <label for="goalWeight">Goal weight (kg)</label>
+              <input type="number" id="goalWeight" name="goalWeight" min="30" max="250" step="0.1" placeholder="—" />
+            </div>
+            <div class="field">
+              <label for="activity">Activity level</label>
+              <input type="text" id="activity" name="activity" placeholder="moderate" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Goal card -->
+        <div class="profile-card fade-up delay-2">
+          <span class="corner-tr"></span><span class="corner-bl"></span>
+          <h2><span class="marker">⟢</span> Mission</h2>
+          <div class="profile-row single">
+            <div class="field">
+              <label for="goal">Primary goal</label>
+              <input type="text" id="goal" name="goal" placeholder="e.g. visible abs by July 26" />
+            </div>
+          </div>
+          <div class="profile-row">
+            <div class="field">
+              <label for="kcalTargetIn">Daily calorie target</label>
+              <input type="number" id="kcalTargetIn" name="kcalTarget" min="1200" max="5000" step="50" />
+            </div>
+            <div class="field">
+              <label for="proteinTargetIn">Daily protein (g)</label>
+              <input type="number" id="proteinTargetIn" name="proteinTarget" min="50" max="400" step="5" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="profile-card full fade-up delay-3">
+          <span class="corner-tr"></span><span class="corner-bl"></span>
+          <h2><span class="marker">★</span> Achievements <span style="font-size:0.7rem; font-family:var(--font-display); letter-spacing:0.2em; color:var(--text-faint); margin-left:0.5rem;" id="achCount">0 / 10</span></h2>
+          <div class="ach-grid" id="achGrid"></div>
+        </div>
+
+      </div>
+
+      <div style="display:flex; gap:1rem; justify-content:center; margin-top:2rem; flex-wrap:wrap;">
+        <button type="submit" class="btn btn-primary btn-lg">
+          Save profile
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 13l4 4L19 7"/>
+          </svg>
+        </button>
+        <a href="home.html" class="btn btn-ghost btn-lg">Back to dashboard</a>
+      </div>
+    </form>
+
+  </main>
+
+  <div class="toast" id="toast">
+    <span class="toast-label">⟁ System</span>
+    <span id="toast-text"></span>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="firebase-init.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
