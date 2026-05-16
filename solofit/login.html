@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in — SoloFit</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="auth-page">
+
+  <a href="index.html" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Back
+  </a>
+
+  <main class="auth-main">
+    <div class="auth-card panel glow fade-up">
+      <span class="corner-tr"></span>
+      <span class="corner-bl"></span>
+
+      <div class="auth-head">
+        <span class="sys-label">◊ Hunter Gate</span>
+        <h1>Welcome back, Hunter</h1>
+        <p>Re-enter the system. Your stats are waiting.</p>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="hunter_handle" autocomplete="username" required />
+          <div class="field-msg" id="username-msg"></div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+          <div class="field-msg" id="password-msg"></div>
+        </div>
+
+        <div class="auth-row">
+          <label class="checkbox">
+            <input type="checkbox" id="remember" />
+            <span class="box"></span>
+            <span>Remember device</span>
+          </label>
+          <a href="#" id="forgot">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+          Enter the system
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M13 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </form>
+
+      <div class="auth-foot">
+        Not a hunter yet? <a href="signup.html">Awaken now</a>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">
+    <span class="toast-label">⟁ System</span>
+    <span id="toast-text">Welcome back, hunter.</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

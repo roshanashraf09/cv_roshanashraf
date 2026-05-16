@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Awaken — SoloFit</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="auth-page">
+
+  <a href="index.html" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Back
+  </a>
+
+  <main class="auth-main">
+    <div class="auth-card panel glow fade-up">
+      <span class="corner-tr"></span>
+      <span class="corner-bl"></span>
+
+      <div class="auth-head">
+        <span class="sys-label">⟁ Awakening Protocol</span>
+        <h1>Forge your hunter</h1>
+        <p>The system has chosen you. Claim your handle.</p>
+      </div>
+
+      <form id="signupForm" novalidate>
+        <div class="field">
+          <label for="username">Choose a username</label>
+          <input type="text" id="username" name="username" placeholder="shadow_monarch" autocomplete="username" minlength="3" maxlength="24" required />
+          <div class="field-msg" id="username-msg"></div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password" minlength="8" required />
+          <div class="password-strength" id="strength">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          </div>
+          <div class="field-msg" id="password-msg"></div>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <input type="password" id="confirm" name="confirm" placeholder="••••••••" autocomplete="new-password" required />
+          <div class="field-msg" id="confirm-msg"></div>
+        </div>
+
+        <div class="auth-row">
+          <label class="checkbox">
+            <input type="checkbox" id="terms" required />
+            <span class="box"></span>
+            <span>I accept the hunter's code</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+          Awaken
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M13 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </form>
+
+      <div class="auth-foot">
+        Already awakened? <a href="login.html">Sign in</a>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">
+    <span class="toast-label">⟁ System notification</span>
+    <span id="toast-text">Awakening successful. Welcome, hunter.</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
